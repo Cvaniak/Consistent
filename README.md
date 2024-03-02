@@ -9,6 +9,16 @@ For know `README` will be my way to keep track on this project.
 My initial plan is to create tool/system that will allow you to write comments and notes in your project.  
 The catchy part is to keep them in separate file but display in the one with code.
 
+## Newest update
+
+So after more research I think that it may work similar to formatter or linter.  
+You could write comment as normal, and on save it could collect all new comments and extract them too new file.  
+It would give advantage of not changing the flow of writing comments.  
+So the thing is that after collecting them we need to display them to user but also allow user to edit them.  
+We can then have toggle mechanism that would load comments to file and the extract them, but it would mess up git on every toggle.
+
+The project needs to start, so probably first step will be to do some PoC with tools like TreeSitter check if we can use existing CI/CD tools.
+
 ## Initial plan
 
 This is how most of our comments will look like:
