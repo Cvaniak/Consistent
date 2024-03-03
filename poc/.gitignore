@@ -1,0 +1,5 @@
+tree-sitter-python/
+build/
+venv/
+.venv/
+main_no_comments.py

@@ -11,6 +11,11 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+So we have working `comment remover`. Just few lines of code and we can remove comments from file.
+The final solution will be probably in `Rust` but `PoCs` I will do in `Python`.
+
+## 02.03.2024
+
 So after more research I think that it may work similar to formatter or linter.  
 You could write comment as normal, and on save it could collect all new comments and extract them too new file.  
 It would give advantage of not changing the flow of writing comments.  
