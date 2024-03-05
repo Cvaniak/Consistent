@@ -31,7 +31,7 @@ def remove_comments(source_code):
 
     # Remove comments by replacing them with spaces (to preserve formatting)
     for start, end in reversed(edit_ranges):  # Reverse to avoid offset issues
-        just_comments[str((start, end))] = source_code[start:end]
+        just_comments[f"{start},{end}"] = source_code[start:end]
         source_code = source_code[:start] + " " * (end - start) + source_code[end:]
 
     return source_code, just_comments
