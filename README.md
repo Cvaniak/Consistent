@@ -11,6 +11,13 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+In `poc` there are two programs: `main.py` that removes comments from file
+and put them to json file and `join_them.py` that merges two files together again.  
+
+Now I need more research to decide how to handle the flow.
+
+## 03.03.2024
+
 So we have working `comment remover`. Just few lines of code and we can remove comments from file.
 The final solution will be probably in `Rust` but `PoCs` I will do in `Python`.
 
