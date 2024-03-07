@@ -1,3 +1,7 @@
 venv/
 .venv/
 
+# Rust
+debug/
+target/
+Cargo.lock
