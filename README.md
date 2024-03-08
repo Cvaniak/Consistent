@@ -11,6 +11,13 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+At this moment comments are stored by their position in bytes in file.  
+The better approach I am trying to implement is to put them via their connection with node or line in code.  
+In version when we can store them by corresponding node, we can them push them in similar way to tree.  
+The way to which node to attach them will be to determine if they are on the left from code or above another node.
+
+## 06.03.2024
+
 In `poc` there are two programs: `main.py` that removes comments from file
 and put them to json file and `join_them.py` that merges two files together again.  
 
