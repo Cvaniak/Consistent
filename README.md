@@ -11,6 +11,11 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+Day spend on reading Tree Sitter documentation.  
+New idea is to build flow around git hook.
+
+## 08.03.2024
+
 At this moment comments are stored by their position in bytes in file.  
 The better approach I am trying to implement is to put them via their connection with node or line in code.  
 In version when we can store them by corresponding node, we can them push them in similar way to tree.  
