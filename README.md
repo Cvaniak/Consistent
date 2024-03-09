@@ -12,7 +12,29 @@ The catchy part is to keep them in separate file but display in the one with cod
 ## Newest update
 
 Day spend on reading Tree Sitter documentation.  
-New idea is to build flow around git hook.
+New idea is to build flow around git hook.  
+So the flow would go:
+
+```
+      | Load comments |
+              V
+  | Write code and comments |
+              V
+        | Save file |
+              V
+   | Run comment remover |
+              V
+  | Comments saved in file |
+  | with commit id attached |
+```
+
+Now this flow is happy path. We have file with comments load to the same file from which we removed them.  
+Problem begins if someone would not load comments right after.  
+Then we can try to get commit in which they were removed,
+load the old tree, load current tree and find corresponding nodes.  
+Then we can apply the old comments to new file.
+
+As a addition we can create messages of CLI tool that inform about hanging comments or other problems.
 
 ## 08.03.2024
 
@@ -24,7 +46,7 @@ The way to which node to attach them will be to determine if they are on the lef
 ## 06.03.2024
 
 In `poc` there are two programs: `main.py` that removes comments from file
-and put them to json file and `join_them.py` that merges two files together again.  
+and put them to json file and `join_them.py` that merges two files together again.
 
 Now I need more research to decide how to handle the flow.
 
