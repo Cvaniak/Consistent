@@ -11,6 +11,10 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+Today only some small tests without new results.
+
+## 09.03.2024
+
 Day spend on reading Tree Sitter documentation.  
 New idea is to build flow around git hook.  
 So the flow would go:
