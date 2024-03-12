@@ -1,5 +1,6 @@
 import json
 from tree_sitter import Language, Node, Parser
+import git
 
 # Load the language library (Adjust the path to your compiled language library)
 Language.build_library(
@@ -51,8 +52,11 @@ output_comments_file_path = "just_comments.json"
 with open(input_file_path, "r", encoding="utf-8") as file:
     source_code = file.read()
 
-# We should add name of commit to comments
 clean_code, comments = remove_comments(source_code)
+
+repo = git.Repo(search_parent_directories=True)
+sha = repo.head.object.hexsha
+comments["git_hash"] = sha
 
 with open(output_file_path, "w", encoding="utf-8") as file:
     file.write(clean_code)
