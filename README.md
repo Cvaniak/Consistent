@@ -11,6 +11,13 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+I found [diffsitter](https://github.com/afnanenayet/diffsitter) which may help me
+to find corresponding nodes between commits.
+
+Not yet decide if I will use it as a part of the system or learn how it works to implement part of that.
+
+## 11.03.2024
+
 Today only some small tests without new results.
 
 ## 09.03.2024
