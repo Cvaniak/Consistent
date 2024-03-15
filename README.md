@@ -11,6 +11,10 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+The `join_them.py` must be fixed.
+
+## 14.03.2024
+
 In progress research of different comments standards.  
 For example [TODO comments](https://github.com/stsewd/tree-sitter-comment).
 That basically means that we could create some special syntax for our comments,  
