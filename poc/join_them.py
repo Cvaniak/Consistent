@@ -1,27 +1,42 @@
 import json
 
 
-input_no_comments = "main_no_comments.py"
-input_comments_file_path = "just_comments.json"
-output_comments_file_path = "with_comments_main.py"
+def apply_comments_to_file(comments_data, lines):
+    adjusted_lines = lines
+
+    for comment in comments_data["comments"]:
+        line_number, column = comment["start"]
+        comment_text = comment["text"]
+        if len(adjusted_lines[line_number][:-1]) <= column:
+            adjusted_lines[line_number] = (
+                adjusted_lines[line_number][:-1]
+                + " " * (column - len(adjusted_lines[line_number]))
+                + comment_text
+                + "\n"
+            )
+        else:
+            print(
+                line_number,
+                repr(adjusted_lines[line_number]),
+                len(adjusted_lines[line_number]),
+                column,
+            )
+            raise ValueError
+
+    return adjusted_lines
 
 
-def join_them(source_code, comments):
-    for start_end, value in comments.items():  # Reverse to avoid offset issues
-        start, _, end = start_end.partition(",")
-        start, end = int(start), int(end)
-        source_code = source_code[:start] + value + source_code[end:]
+json_comments = "just_comments.json"
+source_file_path = "main_no_comments.py"
+output_file_path = "main_with_comments.py"
 
-    return source_code
+with open(json_comments, "r", encoding="utf-8") as json_file:
+    comments_data = json.load(json_file)
 
+with open(source_file_path, "r", encoding="utf-8") as file:
+    lines = file.readlines()
 
-with open(input_no_comments, "r", encoding="utf-8") as file:
-    source_code = file.read()
+done = apply_comments_to_file(comments_data, lines)
 
-with open(input_comments_file_path, "r", encoding="utf-8") as file:
-    comments = json.load(file)
-
-done = join_them(source_code, comments)
-
-with open(output_comments_file_path, "w", encoding="utf-8") as file:
-    file.write(done)
+with open(output_file_path, "w", encoding="utf-8") as output_file:
+    output_file.writelines(done)
