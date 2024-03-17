@@ -11,6 +11,12 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+`join_them.py` fixed.
+
+Time to design flow with happy path and create little demo.
+
+## 15.03.2024
+
 The `join_them.py` must be fixed.
 
 ## 14.03.2024
