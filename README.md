@@ -11,6 +11,34 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+In progress with modifying `join_them` and `main` so we remove empty lines after comments:
+
+```python
+def foo():
+    # comment
+    # comment
+    ...
+```
+
+Will be:
+
+```python
+def foo():
+    ...
+
+```
+
+Not:
+
+```python
+def foo():
+
+
+    ...
+```
+
+## 17.03.2024
+
 `join_them.py` fixed.
 
 Time to design flow with happy path and create little demo.
