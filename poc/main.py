@@ -13,7 +13,7 @@ parser = Parser()
 parser.set_language(PY_LANGUAGE)
 
 
-def remove_comments(source_code):
+def remove_comments(source_code, lines):
     tree = parser.parse(bytes(source_code, "utf8"))
     edit_ranges = []
 
@@ -30,16 +30,26 @@ def remove_comments(source_code):
     # This is just test format
     just_comments = {"comments": []}
 
+    to_delete = []
     # Remove comments by replacing them with spaces (to preserve formatting)
     for node in reversed(edit_ranges):  # Reverse to avoid offset issues
-        start, end = node.start_byte, node.end_byte
+        start_b, end_b = node.start_byte, node.end_byte
+        start_p, end_p = node.start_point, node.end_point
+
         comment = {}
         comment["start"] = node.start_point
-        comment["text"] = source_code[start:end]
+        comment["text"] = source_code[start_b:end_b]
         just_comments["comments"].append(comment)
-        source_code = source_code[:start] + source_code[end:]
 
-    return source_code, just_comments
+        if node.parent.start_point[0] != start_p[0]:
+            to_delete.append(start_p[0])
+            lines[start_p[0]] = ""
+        else:
+            lines[start_p[0]] = lines[start_p[0]][:start_p[1]] + "\n"
+
+    lines = lines
+
+    return source_code, just_comments, lines
 
 
 # Example of reading,
@@ -52,14 +62,17 @@ output_comments_file_path = "just_comments.json"
 with open(input_file_path, "r", encoding="utf-8") as file:
     source_code = file.read()
 
-clean_code, comments = remove_comments(source_code)
+with open(input_file_path, "r", encoding="utf-8") as file:
+    lines = file.readlines()
+
+clean_code, comments, new_lines = remove_comments(source_code, lines)
 
 repo = git.Repo(search_parent_directories=True)
 sha = repo.head.object.hexsha
 comments["git_hash"] = sha
 
 with open(output_file_path, "w", encoding="utf-8") as file:
-    file.write(clean_code)
+    file.writelines(new_lines)
 
 with open(output_comments_file_path, "w", encoding="utf-8") as file:
     json.dump(comments, file, indent=4)
