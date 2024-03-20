@@ -41,7 +41,8 @@ def remove_comments(source_code, lines):
         comment["text"] = source_code[start_b:end_b]
         just_comments["comments"].append(comment)
 
-        if node.parent.start_point[0] != start_p[0]:
+        # TODO: here was edge case, needs to be watched for more
+        if node.parent.start_point[0] != start_p[0] and node.prev_sibling.start_point[0] != start_p[0]:
             to_delete.append(start_p[0])
             lines[start_p[0]] = ""
         else:
