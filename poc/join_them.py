@@ -4,6 +4,11 @@ import json
 def apply_comments_to_file(comments_data, lines):
     adjusted_lines = lines
 
+    # NOTE: this is absolutely horribly unoptimized
+    # NOTE: but this is just PoC
+    for line_to_append in comments_data["deleted_lines"]:
+        adjusted_lines.insert(line_to_append, "")
+
     for comment in comments_data["comments"]:
         line_number, column = comment["start"]
         comment_text = comment["text"]

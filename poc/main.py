@@ -1,6 +1,7 @@
 import json
 from tree_sitter import Language, Node, Parser
 import git
+import bisect
 
 # Load the language library (Adjust the path to your compiled language library)
 Language.build_library(
@@ -28,9 +29,11 @@ def remove_comments(source_code, lines):
     collect_comment_ranges(tree.root_node)
 
     # This is just test format
-    just_comments = {"comments": []}
+    just_comments = {
+        "comments": [],
+        "deleted_lines": [],
+    }
 
-    to_delete = []
     # Remove comments by replacing them with spaces (to preserve formatting)
     for node in reversed(edit_ranges):  # Reverse to avoid offset issues
         start_b, end_b = node.start_byte, node.end_byte
@@ -42,11 +45,14 @@ def remove_comments(source_code, lines):
         just_comments["comments"].append(comment)
 
         # TODO: here was edge case, needs to be watched for more
-        if node.parent.start_point[0] != start_p[0] and node.prev_sibling.start_point[0] != start_p[0]:
-            to_delete.append(start_p[0])
+        if (
+            node.parent.start_point[0] != start_p[0]
+            and node.prev_sibling.start_point[0] != start_p[0]
+        ):
             lines[start_p[0]] = ""
+            bisect.insort(just_comments["deleted_lines"], start_p[0])
         else:
-            lines[start_p[0]] = lines[start_p[0]][:start_p[1]] + "\n"
+            lines[start_p[0]] = lines[start_p[0]][: start_p[1]] + "\n"
 
     lines = lines
 
