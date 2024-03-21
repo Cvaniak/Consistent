@@ -11,6 +11,11 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+The flow is working, you can use `main.py` to remove comments and `join_them.py` to place them in correct place again.  
+Next I want to check if I can use `TreeSitter` to find how the code changed between comments.
+
+## 18.03.2024
+
 In progress with modifying `join_them` and `main` so we remove empty lines after comments:
 
 ```python
