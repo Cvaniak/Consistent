@@ -11,6 +11,14 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+Learning more about how to diff two `AST`s.  
+I want solution that will allow me to support users that forget or intentionally did not load the comments to the code.  
+In this situation I need to take last commits and parse thru all commits to current one tracking the position of nodes.
+
+If all research will fail, I will probably build a workflow that will inform user about unsolved comments.
+
+## 21.03.2024
+
 The flow is working, you can use `main.py` to remove comments and `join_them.py` to place them in correct place again.  
 Next I want to check if I can use `TreeSitter` to find how the code changed between comments.
 
