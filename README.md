@@ -11,6 +11,12 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+Some research on most popular option to show the diff.  
+So it terns out that it is mostly `Longest Common Subsequence` (LCS).  
+With that knowledge I want to test algorithms that will allow me to identify the same nodes between code versions.
+
+## 22.03.2024
+
 Learning more about how to diff two `AST`s.  
 I want solution that will allow me to support users that forget or intentionally did not load the comments to the code.  
 In this situation I need to take last commits and parse thru all commits to current one tracking the position of nodes.
