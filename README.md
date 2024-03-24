@@ -11,6 +11,11 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+To summarize small research - we use `LCS` algorithm to find the `LCS` and then we see what is missing or what is new in newer file.  
+I will probably try to use old file with comments in, and just omit the fact of absence in newer one.
+
+## 23.03.2024
+
 Some research on most popular option to show the diff.  
 So it terns out that it is mostly `Longest Common Subsequence` (LCS).  
 With that knowledge I want to test algorithms that will allow me to identify the same nodes between code versions.
