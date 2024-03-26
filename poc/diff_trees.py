@@ -1,9 +1,18 @@
+from typing import Optional
 from tree_sitter import Language, Node, Parser
 from dataclasses import dataclass
 
+
+# Test Comment
 @dataclass
 class SerTree:
     text: str
+    comment: bool = False
+    marked: bool = False
+    connected_comment: Optional["SerTree"] = None
+
+    def __eq__(self, other):
+        return self.text == other.text
 
 
 def load_language():
@@ -24,12 +33,18 @@ def parse_file(file_path, parser):
     return parser.parse(content)
 
 
-def serialize_tree(node: Node, serialized_list):
+def serialize_tree(node: Node, serialized_list, base_tree = False):
     if node.child_count > 0:
         for child in node.children:
-            serialize_tree(child, serialized_list)
+            serialize_tree(child, serialized_list, base_tree)
     else:
-        serialized_list.append(SerTree(node.text.decode("utf-8")))
+        x = SerTree(node.text.decode("utf-8"))
+        if node.type == "comment":
+            x.comment = True
+        if serialized_list and serialized_list[-1].comment:
+            x.marked = True
+            x.connected_comment = serialized_list[-1]
+        serialized_list.append(x)
 
 
 def lcs(tree_a, tree_b):
@@ -42,6 +57,14 @@ def lcs(tree_a, tree_b):
             else:
                 matrix[i][j] = max(matrix[i][j - 1], matrix[i - 1][j])
     return matrix
+
+
+def mark_nodes(tree):
+    marked_nodes = {}
+
+    ...
+
+    return mark_nodes
 
 
 def backtrack(matrix, tree_a, tree_b, i, j):
@@ -86,7 +109,7 @@ def main():
     tree2 = parse_file("codes/b.py", parser)
 
     serialized_tree1 = []
-    serialize_tree(tree1.root_node, serialized_tree1)
+    serialize_tree(tree1.root_node, serialized_tree1, True)
 
     serialized_tree2 = []
     serialize_tree(tree2.root_node, serialized_tree2)
