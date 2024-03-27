@@ -1,12 +1,20 @@
-# Test
+# Test above
 def foo(): ...
 
 
-def bar(): ...
+def bar(): # tricky inline
+    ...
+
+# fox above
+def fox(): ...
 
 
-class A:
-    def __init__(self) -> None: ...
+class A: # class A inline
+    # Comment above
+    def __init__(self) -> None: 
+        pass # Pass inline
 
 
-def bar(): ...
+# zys above
+def zys():
+    ...

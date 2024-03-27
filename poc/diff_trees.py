@@ -1,15 +1,18 @@
-from typing import Optional
+from typing import Any, Optional
 from tree_sitter import Language, Node, Parser
 from dataclasses import dataclass
+from pprint import pprint
 
 
 # Test Comment
 @dataclass
 class SerTree:
     text: str
+    line: int
     comment: bool = False
     marked: bool = False
-    connected_comment: Optional["SerTree"] = None
+    alone: bool = True
+    node: Optional[Any] = None
 
     def __eq__(self, other):
         return self.text == other.text
@@ -38,12 +41,21 @@ def serialize_tree(node: Node, serialized_list, base_tree = False):
         for child in node.children:
             serialize_tree(child, serialized_list, base_tree)
     else:
-        x = SerTree(node.text.decode("utf-8"))
+        x = SerTree(node.text.decode("utf-8"), node.start_point[0])
         if node.type == "comment":
             x.comment = True
-        if serialized_list and serialized_list[-1].comment:
-            x.marked = True
-            x.connected_comment = serialized_list[-1]
+            if serialized_list and serialized_list[-1].line == x.line:
+                x.alone = False
+                x.node = serialized_list[-1]
+                serialized_list[-1].marked = True
+                serialized_list[-1].node = x
+        else:
+            if serialized_list and serialized_list[-1].comment and serialized_list[-1].alone:
+                x.marked = True
+                serialized_list[-1].node = x
+                x.node = serialized_list[-1]
+
+
         serialized_list.append(x)
 
 
@@ -59,33 +71,44 @@ def lcs(tree_a, tree_b):
     return matrix
 
 
-def mark_nodes(tree):
-    marked_nodes = {}
-
-    ...
-
-    return mark_nodes
-
-
 def backtrack(matrix, tree_a, tree_b, i, j):
+    if i == 0 or j == 0:
+        return []
+    elif tree_a[i - 1] == tree_b[j - 1]:
+        added = backtrack(matrix, tree_a, tree_b, i - 1, j - 1)
+        if tree_a[i-1].marked:
+            added.append((tree_b[j - 1], tree_a[i-1].node))
+        return added
+    else:
+        if matrix[i][j - 1] > matrix[i - 1][j]:
+            added = backtrack(matrix, tree_a, tree_b, i, j - 1)
+        else:
+            added = backtrack(matrix, tree_a, tree_b, i - 1, j)
+            if tree_a[i-1].marked:
+                added.append((None, tree_a[i-1].node)) # abandoned
+        return added
+
+
+def backtrack_add_remove(matrix, tree_a, tree_b, i, j):
     if i == 0 or j == 0:
         return [], [], []
     elif tree_a[i - 1] == tree_b[j - 1]:
-        added, removed, common = backtrack(matrix, tree_a, tree_b, i - 1, j - 1)
+        added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i - 1, j - 1)
         common.append(tree_a[i - 1])
         return added, removed, common
     else:
         if matrix[i][j - 1] > matrix[i - 1][j]:
-            added, removed, common = backtrack(matrix, tree_a, tree_b, i, j - 1)
+            added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i, j - 1)
             added.append(tree_b[j - 1])
         else:
-            added, removed, common = backtrack(matrix, tree_a, tree_b, i - 1, j)
+            added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i - 1, j)
             removed.append(tree_a[i - 1])
         return added, removed, common
 
 
 def display_diff(a_py_serialized, b_py_serialized, lcs_matrix):
-    added, removed, common = backtrack(
+    # added, removed, common = backtrack(
+    added = backtrack(
         lcs_matrix,
         a_py_serialized,
         b_py_serialized,
@@ -93,13 +116,15 @@ def display_diff(a_py_serialized, b_py_serialized, lcs_matrix):
         len(b_py_serialized),
     )
 
-    print("Added in b.py:")
     for item in added:
-        print(f"+ {item}")
-
-    print("\nRemoved from a.py:")
-    for item in removed:
-        print(f"- {item}")
+        if item[0] is not None:
+            if item[1].alone:
+                print(f"line: {item[0].line}\n{item[1].text}\n{item[0].text}")
+            else:
+                print(f"line: {item[0].line}\n{item[0].text} {item[1].text}")
+        else:
+            print(f"abandoned: {item[1].text}")
+        print()
 
 
 def main():
