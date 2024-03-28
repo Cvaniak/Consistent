@@ -106,15 +106,8 @@ def backtrack_add_remove(matrix, tree_a, tree_b, i, j):
         return added, removed, common
 
 
-def display_diff(a_py_serialized, b_py_serialized, lcs_matrix):
+def display_diff(added):
     # added, removed, common = backtrack(
-    added = backtrack(
-        lcs_matrix,
-        a_py_serialized,
-        b_py_serialized,
-        len(a_py_serialized),
-        len(b_py_serialized),
-    )
 
     for item in added:
         if item[0] is not None:
@@ -125,6 +118,29 @@ def display_diff(a_py_serialized, b_py_serialized, lcs_matrix):
         else:
             print(f"abandoned: {item[1].text}")
         print()
+
+
+def out_file(origin_file_path, output_file_path, diffs):
+    with open(origin_file_path, "r") as file:
+        content = file.readlines()
+
+    for item in diffs:
+        if item[0] is not None:
+            if item[1].alone:
+                ...
+            else:
+                # content[item[0].line] += item[1].text
+                content[item[0].line] = (
+                    content[item[0].line][:-1]
+                    + " "
+                    + item[1].text
+                    + "\n"
+                )
+        else:
+            ...
+    
+    with open(output_file_path, "w", encoding="utf-8") as output_file:
+        output_file.writelines(content)
 
 
 def main():
@@ -141,7 +157,16 @@ def main():
 
     lcs_sequence = lcs(serialized_tree1, serialized_tree2)
 
-    display_diff(serialized_tree1, serialized_tree2, lcs_sequence)
+    added = backtrack(
+        lcs_sequence,
+        serialized_tree1,
+        serialized_tree2,
+        len(serialized_tree1),
+        len(serialized_tree2),
+    )
+
+    display_diff(added)
+    out_file("codes/b.py", "codes/bb.py", added)
 
 
 if __name__ == "__main__":
