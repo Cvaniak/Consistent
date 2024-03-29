@@ -11,6 +11,11 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
+So I am not very happy with current algorithm, but with some adjustments it should work well enough for proof of concept.  
+After tweaks I would like to prepare demo of how it can work in action.
+
+## 24.03.2024
+
 To summarize small research - we use `LCS` algorithm to find the `LCS` and then we see what is missing or what is new in newer file.  
 I will probably try to use old file with comments in, and just omit the fact of absence in newer one.
 
