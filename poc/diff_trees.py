@@ -1,10 +1,8 @@
-from typing import Any, Optional
+from typing import Any, List, Optional
 from tree_sitter import Language, Node, Parser
 from dataclasses import dataclass
-from pprint import pprint
 
 
-# Test Comment
 @dataclass
 class SerTree:
     text: str
@@ -16,6 +14,12 @@ class SerTree:
 
     def __eq__(self, other):
         return self.text == other.text
+
+
+@dataclass
+class Foo:
+    b: SerTree
+    a: Optional[SerTree] = None
 
 
 def load_language():
@@ -36,7 +40,7 @@ def parse_file(file_path, parser):
     return parser.parse(content)
 
 
-def serialize_tree(node: Node, serialized_list, base_tree = False):
+def serialize_tree(node: Node, serialized_list, base_tree=False):
     if node.child_count > 0:
         for child in node.children:
             serialize_tree(child, serialized_list, base_tree)
@@ -50,11 +54,14 @@ def serialize_tree(node: Node, serialized_list, base_tree = False):
                 serialized_list[-1].marked = True
                 serialized_list[-1].node = x
         else:
-            if serialized_list and serialized_list[-1].comment and serialized_list[-1].alone:
+            if (
+                serialized_list
+                and serialized_list[-1].comment
+                and serialized_list[-1].alone
+            ):
                 x.marked = True
                 serialized_list[-1].node = x
                 x.node = serialized_list[-1]
-
 
         serialized_list.append(x)
 
@@ -76,16 +83,16 @@ def backtrack(matrix, tree_a, tree_b, i, j):
         return []
     elif tree_a[i - 1] == tree_b[j - 1]:
         added = backtrack(matrix, tree_a, tree_b, i - 1, j - 1)
-        if tree_a[i-1].marked:
-            added.append((tree_b[j - 1], tree_a[i-1].node))
+        if tree_a[i - 1].marked:
+            added.append(Foo(a=tree_b[j - 1], b=tree_a[i - 1].node))
         return added
     else:
         if matrix[i][j - 1] > matrix[i - 1][j]:
             added = backtrack(matrix, tree_a, tree_b, i, j - 1)
         else:
             added = backtrack(matrix, tree_a, tree_b, i - 1, j)
-            if tree_a[i-1].marked:
-                added.append((None, tree_a[i-1].node)) # abandoned
+            if tree_a[i - 1].marked:
+                added.append(Foo(a=None, b=tree_a[i - 1].node))  # abandoned
         return added
 
 
@@ -93,30 +100,36 @@ def backtrack_add_remove(matrix, tree_a, tree_b, i, j):
     if i == 0 or j == 0:
         return [], [], []
     elif tree_a[i - 1] == tree_b[j - 1]:
-        added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i - 1, j - 1)
+        added, removed, common = backtrack_add_remove(
+            matrix, tree_a, tree_b, i - 1, j - 1
+        )
         common.append(tree_a[i - 1])
         return added, removed, common
     else:
         if matrix[i][j - 1] > matrix[i - 1][j]:
-            added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i, j - 1)
+            added, removed, common = backtrack_add_remove(
+                matrix, tree_a, tree_b, i, j - 1
+            )
             added.append(tree_b[j - 1])
         else:
-            added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i - 1, j)
+            added, removed, common = backtrack_add_remove(
+                matrix, tree_a, tree_b, i - 1, j
+            )
             removed.append(tree_a[i - 1])
         return added, removed, common
 
 
-def display_diff(added):
+def display_diff(added: List[Foo]):
     # added, removed, common = backtrack(
 
     for item in added:
-        if item[0] is not None:
-            if item[1].alone:
-                print(f"line: {item[0].line}\n{item[1].text}\n{item[0].text}")
+        if item.a is not None:
+            if item.b.alone:
+                print(f"line: {item.a.line}\n{item.b.text}\n{item.a.text}")
             else:
-                print(f"line: {item[0].line}\n{item[0].text} {item[1].text}")
+                print(f"line: {item.a.line}\n{item.a.text} {item.b.text}")
         else:
-            print(f"abandoned: {item[1].text}")
+            print(f"abandoned: {item.b.text}")
         print()
 
 
@@ -124,21 +137,29 @@ def out_file(origin_file_path, output_file_path, diffs):
     with open(origin_file_path, "r") as file:
         content = file.readlines()
 
+    shift = 0
     for item in diffs:
-        if item[0] is not None:
-            if item[1].alone:
+        if item.a is not None:
+            if item.b.alone:
                 ...
+                x = item.b.text
+                if x[-1] != "\n":
+                    x = x + "\n"
+                content.insert(item.a.line + shift, x)
+                shift += 1
             else:
-                # content[item[0].line] += item[1].text
-                content[item[0].line] = (
-                    content[item[0].line][:-1]
-                    + " "
-                    + item[1].text
-                    + "\n"
-                )
+                # print(item.b.line, shift)
+                # print(item.b.text)
+                if len(content) <= item.a.line + shift:
+                    print("ojoj", item.a.line, shift, item.b.text)
+                    continue
+
+                x = content[item.a.line + shift][:-1]
+
+                content[item.a.line + shift] = ( x + " " + item.b.text + "\n")
         else:
             ...
-    
+
     with open(output_file_path, "w", encoding="utf-8") as output_file:
         output_file.writelines(content)
 
