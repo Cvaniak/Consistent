@@ -7,3 +7,4 @@ just_comments.json
 with_comments_main.py
 main_with_comments.py
 bb.py
+__pycache__

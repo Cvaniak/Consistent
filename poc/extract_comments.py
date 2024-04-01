@@ -83,5 +83,3 @@ with open(output_file_path, "w", encoding="utf-8") as file:
 
 with open(output_comments_file_path, "w", encoding="utf-8") as file:
     json.dump(comments, file, indent=4)
-
-print("Done! That was quick, right?")

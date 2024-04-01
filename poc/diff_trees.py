@@ -141,15 +141,12 @@ def out_file(origin_file_path, output_file_path, diffs):
     for item in diffs:
         if item.a is not None:
             if item.b.alone:
-                ...
                 x = item.b.text
                 if x[-1] != "\n":
                     x = x + "\n"
                 content.insert(item.a.line + shift, x)
                 shift += 1
             else:
-                # print(item.b.line, shift)
-                # print(item.b.text)
                 if len(content) <= item.a.line + shift:
                     print("ojoj", item.a.line, shift, item.b.text)
                     continue
