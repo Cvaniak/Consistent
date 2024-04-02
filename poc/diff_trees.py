@@ -161,11 +161,11 @@ def out_file(origin_file_path, output_file_path, diffs):
         output_file.writelines(content)
 
 
-def main():
+def main(file_in_1: str, file_in_2: str, file_out: str):
     parser = load_language()
 
-    tree1 = parse_file("codes/a.py", parser)
-    tree2 = parse_file("codes/b.py", parser)
+    tree1 = parse_file(file_in_1, parser)
+    tree2 = parse_file(file_in_2, parser)
 
     serialized_tree1 = []
     serialize_tree(tree1.root_node, serialized_tree1, True)
@@ -184,8 +184,8 @@ def main():
     )
 
     display_diff(added)
-    out_file("codes/b.py", "codes/bb.py", added)
+    out_file(file_in_2, file_out, added)
 
 
 if __name__ == "__main__":
-    main()
+    main("./tests/cases/happy_path/a.py", "./tests/cases/happy_path/b.py", "./tests/cases/happy_path/bb.py")

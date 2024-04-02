@@ -62,7 +62,7 @@ def remove_comments(source_code, lines):
 # Example of reading,
 # processing, and writing the file
 # also three line comment
-input_file_path = "main.py"
+input_file_path = "extract_comments.py"
 output_file_path = "main_no_comments.py"
 output_comments_file_path = "just_comments.json"
 
