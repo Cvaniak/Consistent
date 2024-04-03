@@ -188,4 +188,4 @@ def main(file_in_1: str, file_in_2: str, file_out: str):
 
 
 if __name__ == "__main__":
-    main("./tests/cases/happy_path/a.py", "./tests/cases/happy_path/b.py", "./tests/cases/happy_path/bb.py")
+    main("./tests/cases/happy_path/a.py", "./tests/cases/happy_path/b.py", "./tests/cases/happy_path/out.py")
