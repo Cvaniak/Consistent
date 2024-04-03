@@ -11,9 +11,13 @@ The catchy part is to keep them in separate file but display in the one with cod
 
 ## Newest update
 
-This is Easter commit. So I can only offer a :egg:.
+I need to rethink some design solutions. Nothing important today.
 
 ## 31.03.2024
+
+This is Easter commit. So I can only offer a :egg:.
+
+## 29.03.2024
 
 So I am not very happy with current algorithm, but with some adjustments it should work well enough for proof of concept.  
 After tweaks I would like to prepare demo of how it can work in action.
