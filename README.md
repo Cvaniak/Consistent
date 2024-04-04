@@ -9,6 +9,28 @@ For know `README` will be my way to keep track on this project.
 My initial plan is to create tool/system that will allow you to write comments and notes in your project.  
 The catchy part is to keep them in separate file but display in the one with code.
 
+---
+
+## Current state
+
+The `poc` contains three files:
+
+- `extract_comments.py` which is able to remove all comments from file and put them to `json` file.
+  For now it does not modify file but create new one without comments.
+- `join_comments.py` which can attach comments back to original file.
+- `diff_tree.py` which tries to attach comments to the original file that is already modified.
+  Main goal here is to have flow that will allow user to "forget" about attaching comments and still put them in correct place.
+
+### Thoughts
+
+- The usage of `TreeSitter` in theory can help to indentify correct place for comment.
+  The problem is that it have different attributes for every supported programming language.
+- Even if the `Python` scripts are just for `PoC` I want to write some tests that will allow me to catch edge cases.
+
+For now all tests are done on `Python` files, as the `TreeSitter` might work differently for other formats.
+
+---
+
 ## Newest update
 
 I need to rethink some design solutions. Nothing important today.
