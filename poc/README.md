@@ -17,9 +17,15 @@ pip3 install -r requirements.txt
 run:
 
 ```bash
-python3 main.py
+python3 extract_comments.py
+# or
+python3 join_comments.py
+# or
+python3 diff_trees.py
 ```
 
-and you will get same source code but without comments.
+to run tests:
 
-
+```bash
+pytest tests
+```
