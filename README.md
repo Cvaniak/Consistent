@@ -23,7 +23,7 @@ The `poc` contains three files:
 
 ### Thoughts
 
-- The usage of `TreeSitter` in theory can help to indentify correct place for comment.
+- The usage of `TreeSitter` in theory can help to identify correct place for comment.
   The problem is that it have different attributes for every supported programming language.
 - Even if the `Python` scripts are just for `PoC` I want to write some tests that will allow me to catch edge cases.
 
@@ -33,11 +33,16 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+After small refactor of `extract_comments.py` and `join_comments.py` also the `diff_tree.py` needs one.  
+The biggest problem with this files is how to handle the files, so it will be easy to test, use, and put in to the flow.
+
+## 03.04.2024
+
 I need to rethink some design solutions. Nothing important today.
 
 ## 31.03.2024
 
-This is Easter commit. So I can only offer a :egg:.
+This is Easter commit. So I can only offer an :egg:.
 
 ## 29.03.2024
 
