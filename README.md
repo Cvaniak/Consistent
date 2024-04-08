@@ -33,6 +33,13 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+After many hours I decided to check how `linting` tools manage tests.  
+This won't only be helpful in `PoC` but especially in final solution, where the tests will be crucial.
+
+I decided to check the test code for `black` and `isort`. It is almost terrifying 
+
+## 07.04.2024
+
 After small refactor of `extract_comments.py` and `join_comments.py` also the `diff_tree.py` needs one.  
 The biggest problem with this files is how to handle the files, so it will be easy to test, use, and put in to the flow.
 
