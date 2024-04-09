@@ -83,6 +83,17 @@ def get_commit_sha():
     return sha
 
 
+def extract_comments(input_file_path, source_code, lines):
+    tree = get_tree(source_code)
+    comments, deleted_lines, new_lines = remove_comments(tree, lines)
+
+    out_data = CommentsStruct(
+        comments, deleted_lines, get_commit_sha(), input_file_path
+    )
+
+    return new_lines, out_data
+
+
 # Example of reading,
 # processing, and writing the file
 # also three line comment
@@ -93,12 +104,7 @@ def main(input_file_path, output_file_path, output_comments_file_path):
     with open(input_file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
-    tree = get_tree(source_code)
-    comments, deleted_lines, new_lines = remove_comments(tree, lines)
-
-    out_data = CommentsStruct(
-        comments, deleted_lines, get_commit_sha(), input_file_path
-    )
+    new_lines, out_data = extract_comments(input_file_path, source_code, lines)
 
     with open(output_file_path, "w", encoding="utf-8") as file:
         file.writelines(new_lines)

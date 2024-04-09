@@ -32,7 +32,6 @@ def apply_comments_to_file(comments_data, lines):
 
 
 def main(source_file_path, output_file_path, json_comments):
-
     with open(json_comments, "r", encoding="utf-8") as json_file:
         comments_data = json.load(json_file)
 
@@ -43,6 +42,7 @@ def main(source_file_path, output_file_path, json_comments):
 
     with open(output_file_path, "w", encoding="utf-8") as output_file:
         output_file.writelines(done)
+
 
 if __name__ == "__main__":
     source_file_path = "main_no_comments.py"

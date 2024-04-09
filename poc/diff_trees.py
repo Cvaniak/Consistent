@@ -153,7 +153,7 @@ def out_file(origin_file_path, output_file_path, diffs):
 
                 x = content[item.a.line + shift][:-1]
 
-                content[item.a.line + shift] = ( x + " " + item.b.text + "\n")
+                content[item.a.line + shift] = x + " " + item.b.text + "\n"
         else:
             ...
 
@@ -188,4 +188,8 @@ def main(file_in_1: str, file_in_2: str, file_out: str):
 
 
 if __name__ == "__main__":
-    main("./tests/cases/happy_path/a.py", "./tests/cases/happy_path/b.py", "./tests/cases/happy_path/out.py")
+    main(
+        "./tests/cases/happy_path/a.py",
+        "./tests/cases/happy_path/b.py",
+        "./tests/cases/happy_path/out.py",
+    )
