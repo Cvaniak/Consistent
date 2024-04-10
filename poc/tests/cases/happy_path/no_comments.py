@@ -1,15 +1,16 @@
 def foo(): ...
 
 
-def bar(): ...
+def bar():  
+    ...
 
 
 def fox(): ...
 
 
-class A:
+class A:  
     def __init__(self) -> None:
-        pass
+        pass  
 
 
 def zys(): ...

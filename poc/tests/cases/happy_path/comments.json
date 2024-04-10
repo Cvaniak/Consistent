@@ -1,0 +1,60 @@
+{
+    "comments": [
+        {
+            "start": [
+                18,
+                0
+            ],
+            "text": "# zys above"
+        },
+        {
+            "start": [
+                15,
+                14
+            ],
+            "text": "# Pass inline"
+        },
+        {
+            "start": [
+                13,
+                4
+            ],
+            "text": "# Comment above"
+        },
+        {
+            "start": [
+                12,
+                10
+            ],
+            "text": "# class A inline"
+        },
+        {
+            "start": [
+                8,
+                0
+            ],
+            "text": "# fox above"
+        },
+        {
+            "start": [
+                4,
+                12
+            ],
+            "text": "# tricky inline"
+        },
+        {
+            "start": [
+                0,
+                0
+            ],
+            "text": "# Test above"
+        }
+    ],
+    "deleted_lines": [
+        8,
+        13,
+        18
+    ],
+    "commit_sha": "9844f6102912c41af9b33d8c87f739aecfab3678",
+    "file_name": "./tests/cases/happy_path/with_comments.py"
+}

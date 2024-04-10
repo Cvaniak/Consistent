@@ -68,11 +68,13 @@ def remove_comments(tree, lines):
         if (
             node.parent.start_point[0] != start_p[0]
             and node.prev_sibling.start_point[0] != start_p[0]
-        ):
+        ) or node.parent.type == "module":
             lines[start_p[0]] = ""
             bisect.insort(deleted_lines, start_p[0])
         else:
             lines[start_p[0]] = lines[start_p[0]][: start_p[1]] + "\n"
+
+    lines = [x for x in lines if x != ""]
 
     return comments, deleted_lines, lines
 
@@ -117,4 +119,6 @@ if __name__ == "__main__":
     input_file_path = "extract_comments.py"
     output_file_path = "main_no_comments.py"
     output_comments_file_path = "just_comments.json"
+    input_file_path = "./tests/cases/happy_path/with_comments.py"
+    output_file_path = "./tests/cases/happy_path/no_comments.py"
     main(input_file_path, output_file_path, output_comments_file_path)
