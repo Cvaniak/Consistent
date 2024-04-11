@@ -1,60 +1,61 @@
 {
     "comments": [
         {
-            "start": [
-                18,
-                0
-            ],
+            "start": {
+                "row": 18,
+                "column": 0
+            },
             "text": "# zys above"
         },
         {
-            "start": [
-                15,
-                14
-            ],
+            "start": {
+                "row": 15,
+                "column": 14
+            },
             "text": "# Pass inline"
         },
         {
-            "start": [
-                13,
-                4
-            ],
+            "start": {
+                "row": 13,
+                "column": 4
+            },
             "text": "# Comment above"
         },
         {
-            "start": [
-                12,
-                10
-            ],
+            "start": {
+                "row": 12,
+                "column": 10
+            },
             "text": "# class A inline"
         },
         {
-            "start": [
-                8,
-                0
-            ],
+            "start": {
+                "row": 8,
+                "column": 0
+            },
             "text": "# fox above"
         },
         {
-            "start": [
-                4,
-                12
-            ],
+            "start": {
+                "row": 4,
+                "column": 12
+            },
             "text": "# tricky inline"
         },
         {
-            "start": [
-                0,
-                0
-            ],
+            "start": {
+                "row": 0,
+                "column": 0
+            },
             "text": "# Test above"
         }
     ],
     "deleted_lines": [
+        0,
         8,
         13,
         18
     ],
-    "commit_sha": "9844f6102912c41af9b33d8c87f739aecfab3678",
+    "commit_sha": "445c5e4fcd1eec8af912b220b39bcb9a87e48873",
     "file_name": "./tests/cases/happy_path/with_comments.py"
 }
