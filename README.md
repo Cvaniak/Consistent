@@ -33,6 +33,10 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+After refactor and first test case I will probably continue with this approach. Now it is time to create tests for other files.
+
+## 08.04.2024
+
 After many hours I decided to check how `linting` tools manage tests.  
 This won't only be helpful in `PoC` but especially in final solution, where the tests will be crucial.
 
