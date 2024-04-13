@@ -10,7 +10,8 @@ def apply_comments_to_file(comments_data, lines):
         adjusted_lines.insert(line_to_append, "")
 
     for comment in comments_data["comments"]:
-        line_number, column = comment["start"]
+        tmp = comment["start"]
+        line_number, column = tmp["row"], tmp["column"]
         comment_text = comment["text"]
         if len(adjusted_lines[line_number][:-1]) <= column:
             adjusted_lines[line_number] = (
