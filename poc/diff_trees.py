@@ -133,10 +133,8 @@ def display_diff(added: List[Foo]):
         print()
 
 
-def out_file(origin_file_path, output_file_path, diffs):
-    with open(origin_file_path, "r") as file:
-        content = file.readlines()
-
+# TODO: Remmber it is modified in place
+def apply_missing_comments(content, diffs):
     shift = 0
     for item in diffs:
         if item.a is not None:
@@ -157,8 +155,20 @@ def out_file(origin_file_path, output_file_path, diffs):
         else:
             ...
 
-    with open(output_file_path, "w", encoding="utf-8") as output_file:
-        output_file.writelines(content)
+    return content
+
+
+def find_missing_comments(tree_a, tree_b):
+    lcs_sequence = lcs(tree_a, tree_b)
+
+    added = backtrack(
+        lcs_sequence,
+        tree_a,
+        tree_b,
+        len(tree_a),
+        len(tree_b),
+    )
+    return added
 
 
 def main(file_in_1: str, file_in_2: str, file_out: str):
@@ -173,23 +183,19 @@ def main(file_in_1: str, file_in_2: str, file_out: str):
     serialized_tree2 = []
     serialize_tree(tree2.root_node, serialized_tree2)
 
-    lcs_sequence = lcs(serialized_tree1, serialized_tree2)
-
-    added = backtrack(
-        lcs_sequence,
-        serialized_tree1,
-        serialized_tree2,
-        len(serialized_tree1),
-        len(serialized_tree2),
-    )
+    added = find_missing_comments(serialized_tree1, serialized_tree2)
 
     display_diff(added)
-    out_file(file_in_2, file_out, added)
+    with open(file_in_2, "r") as file:
+        origin_file_data = file.readlines()
 
+    content = apply_missing_comments(origin_file_data, added)
+
+    with open(file_out, "w", encoding="utf-8") as output_file:
+        output_file.writelines(content)
 
 if __name__ == "__main__":
-    main(
-        "./tests/cases/happy_path/a.py",
-        "./tests/cases/happy_path/b.py",
-        "./tests/cases/happy_path/out.py",
-    )
+    file_a = "./tests/cases/happy_path/a.py"
+    file_b = "./tests/cases/happy_path/b.py"
+    file_out = "./tests/cases/happy_path/out.py"
+    main(file_a, file_b, file_out)
