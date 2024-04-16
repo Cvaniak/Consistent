@@ -65,6 +65,14 @@ def serialize_tree(node: Node, serialized_list, base_tree=False):
 
         serialized_list.append(x)
 
+def get_serialized_tree(file_path, parser):
+    tree = parse_file(file_path, parser)
+
+    serialized_tree = []
+    serialize_tree(tree.root_node, serialized_tree, True)
+
+    return serialized_tree
+
 
 def lcs(tree_a, tree_b):
     m, n = len(tree_a), len(tree_b)
@@ -174,16 +182,11 @@ def find_missing_comments(tree_a, tree_b):
 def main(file_in_1: str, file_in_2: str, file_out: str):
     parser = load_language()
 
-    tree1 = parse_file(file_in_1, parser)
-    tree2 = parse_file(file_in_2, parser)
+    tree1 = get_serialized_tree(file_in_1, parser)
+    tree2 = get_serialized_tree(file_in_2, parser)
 
-    serialized_tree1 = []
-    serialize_tree(tree1.root_node, serialized_tree1, True)
 
-    serialized_tree2 = []
-    serialize_tree(tree2.root_node, serialized_tree2)
-
-    added = find_missing_comments(serialized_tree1, serialized_tree2)
+    added = find_missing_comments(tree1, tree2)
 
     display_diff(added)
     with open(file_in_2, "r") as file:
@@ -193,6 +196,7 @@ def main(file_in_1: str, file_in_2: str, file_out: str):
 
     with open(file_out, "w", encoding="utf-8") as output_file:
         output_file.writelines(content)
+
 
 if __name__ == "__main__":
     file_a = "./tests/cases/happy_path/a.py"
