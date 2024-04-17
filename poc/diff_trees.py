@@ -11,6 +11,7 @@ class SerTree:
     marked: bool = False
     alone: bool = True
     node: Optional[Any] = None
+    column: int = 0
 
     def __eq__(self, other):
         return self.text == other.text
@@ -45,7 +46,7 @@ def serialize_tree(node: Node, serialized_list, base_tree=False):
         for child in node.children:
             serialize_tree(child, serialized_list, base_tree)
     else:
-        x = SerTree(node.text.decode("utf-8"), node.start_point[0])
+        x = SerTree(node.text.decode("utf-8"), node.start_point[0], column=node.start_point[1])
         if node.type == "comment":
             x.comment = True
             if serialized_list and serialized_list[-1].line == x.line:
@@ -64,6 +65,7 @@ def serialize_tree(node: Node, serialized_list, base_tree=False):
                 x.node = serialized_list[-1]
 
         serialized_list.append(x)
+
 
 def get_serialized_tree(file_path, parser):
     tree = parse_file(file_path, parser)
@@ -150,7 +152,7 @@ def apply_missing_comments(content, diffs):
                 x = item.b.text
                 if x[-1] != "\n":
                     x = x + "\n"
-                content.insert(item.a.line + shift, x)
+                content.insert(item.a.line + shift, " "* item.b.column + x)
                 shift += 1
             else:
                 if len(content) <= item.a.line + shift:
@@ -159,7 +161,7 @@ def apply_missing_comments(content, diffs):
 
                 x = content[item.a.line + shift][:-1]
 
-                content[item.a.line + shift] = x + " " + item.b.text + "\n"
+                content[item.a.line + shift] = x + "  " + item.b.text + "\n"
         else:
             ...
 
@@ -184,7 +186,6 @@ def main(file_in_1: str, file_in_2: str, file_out: str):
 
     tree1 = get_serialized_tree(file_in_1, parser)
     tree2 = get_serialized_tree(file_in_2, parser)
-
 
     added = find_missing_comments(tree1, tree2)
 

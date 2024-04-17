@@ -67,7 +67,9 @@ def remove_comments(tree, lines):
     for node in reversed(comment_nodes):  # Reverse to avoid offset issues
         start_p, end_p = node.start_point, node.end_point
 
-        comment = Comment(start=Position(*start_p), text=lines[start_p[0]][start_p[1] : end_p[1]])
+        comment = Comment(
+            start=Position(*start_p), text=lines[start_p[0]][start_p[1] : end_p[1]]
+        )
         comments.append(comment)
 
         # TODO: here was edge case, needs to be watched for more
@@ -78,7 +80,7 @@ def remove_comments(tree, lines):
             lines[start_p[0]] = ""
             bisect.insort(deleted_lines, start_p[0])
         else:
-            lines[start_p[0]] = lines[start_p[0]][: start_p[1]] + "\n"
+            lines[start_p[0]] = lines[start_p[0]][: start_p[1]].rstrip() + "\n"
 
     lines = [x for x in lines if x != ""]
 

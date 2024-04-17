@@ -7,8 +7,8 @@ from .utils import get_lines_from_file, load_json
 @pytest.mark.parametrize("path", ["./tests/cases/happy_path/"])
 def test_happy_path(path: str):
     # given
-    file_in, file_out= path + "no_comments.py", path + "with_comments.py"
-    file_json =  path + "comments.json"
+    file_in, file_out = path + "no_comments.py", path + "with_comments.py"
+    file_json = path + "comments.json"
     lines_in = get_lines_from_file(file_in)
     lines_out = get_lines_from_file(file_out)
     comments_data = load_json(file_json)
