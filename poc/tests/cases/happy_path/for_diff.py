@@ -8,7 +8,8 @@ def bar():  # tricky inline
     ...
 
 
-def test():
+# this will be abandoned
+def this_will_be_abandoned():
     pass
 
 
