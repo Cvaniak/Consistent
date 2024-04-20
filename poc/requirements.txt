@@ -3,3 +3,5 @@ ruff
 black
 gitpython
 pytest
+
+typer
