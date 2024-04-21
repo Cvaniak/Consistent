@@ -46,7 +46,9 @@ def serialize_tree(node: Node, serialized_list, base_tree=False):
         for child in node.children:
             serialize_tree(child, serialized_list, base_tree)
     else:
-        x = SerTree(node.text.decode("utf-8"), node.start_point[0], column=node.start_point[1])
+        x = SerTree(
+            node.text.decode("utf-8"), node.start_point[0], column=node.start_point[1]
+        )
         if node.type == "comment":
             x.comment = True
             if serialized_list and serialized_list[-1].line == x.line:
@@ -152,7 +154,7 @@ def apply_missing_comments(content, diffs):
                 x = item.b.text
                 if x[-1] != "\n":
                     x = x + "\n"
-                content.insert(item.a.line + shift, " "* item.b.column + x)
+                content.insert(item.a.line + shift, " " * item.b.column + x)
                 shift += 1
             else:
                 if len(content) <= item.a.line + shift:

@@ -14,17 +14,12 @@ def apply_comments_to_file(comments_data, lines):
         line_number, column = tmp["row"], tmp["column"]
         comment_text = comment["text"]
         if len(adjusted_lines[line_number]) == 0:
-            adjusted_lines[line_number] = ( 
-                " " * (column - len(adjusted_lines[line_number]))
-                + comment_text
-                + "\n"
+            adjusted_lines[line_number] = (
+                " " * (column - len(adjusted_lines[line_number])) + comment_text + "\n"
             )
         elif len(adjusted_lines[line_number][:-1]) <= column:
             adjusted_lines[line_number] = (
-                adjusted_lines[line_number][:-1].rstrip()
-                + "  "
-                + comment_text
-                + "\n"
+                adjusted_lines[line_number][:-1].rstrip() + "  " + comment_text + "\n"
             )
         else:
             print(
