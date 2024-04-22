@@ -24,7 +24,11 @@ def extract(file: BipFile):
     """
     Extract comments from choosen file
     """
-    extract_comments.main(file.name, file.name, "./def.json")
+    json_file = file.with_name(f"comments_{file.stem}.json")
+
+    extract_comments.main(file.name, file.name, json_file)
+    print(f"{file.stem} extracted to {json_file}")
+    print(f"Some stats could be shown here")
 
 
 @app.command()
@@ -32,11 +36,15 @@ def join(file: BipFile):
     """
     Join comments with source file
     """
-    # TODO: add json file as parameter
-    # TODO: Check if json file exists
+    json_file = file.with_name(f"comments_{file.stem}.json")
+    if not json_file.exists():
+        raise typer.BadParameter("File does not exist.")
     # TODO: Check if json file with comments is compatible for simple join
     # TODO: Prepare strategy for harder files
-    join_comments.main(file.name, file.name, "./def.json")
+    join_comments.main(file.name, file.name, json_file)
+
+    print(f"{file.stem} is joined with {json_file.stem}")
+    print(f"Some stats could be shown here")
 
 
 if __name__ == "__main__":
