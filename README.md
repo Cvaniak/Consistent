@@ -33,6 +33,10 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+The double usage of `join_comments.py` will modify the file twice. It needs to be solved.
+
+## 19.04.2024
+
 The main idea is ready. The diff algorithm for sure needs tweaks and more tests but its something to fix later.  
 Now I need a working flow. For this I will create CLI tool with options to choose.  
 Along the way the implementation of algorithms will probably change as well as JSON format and things I haven't thought about yet.
