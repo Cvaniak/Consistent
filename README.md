@@ -33,6 +33,17 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+The double join problem made me think that we need to have any kind of control over the state.
+We can try to determine it on the fly or we can save it somewhere.  
+In both cases the problem is that user might mix the already saved comments with new one etc.  
+It will always create problems like the comments that are partially loaded or modified.  
+
+To prevent that I think that we can make the comments with prefix like `# LOCAL: this is comment`.  
+This way you see if the comments are loaded or not. You never delete comments that are not meant for deletion.  
+You can have commands that resolve better and easier any problems. They also should be easier to parse.
+
+## 23.04.2024
+
 The double usage of `join_comments.py` will modify the file twice. It needs to be solved.
 
 ## 19.04.2024
