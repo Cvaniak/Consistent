@@ -33,6 +33,13 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+I wrote some extension that would work with PREFIX. However my conclusion is that it still does not solve most of the problems.  
+Also I am overthinking the problem of situation when user is turning off comments, writing something and turning them on again (in a loop).
+
+For now I need to focus to finish base idea and write down all needed features.
+
+## 24.04.2024
+
 The double join problem made me think that we need to have any kind of control over the state.
 We can try to determine it on the fly or we can save it somewhere.  
 In both cases the problem is that user might mix the already saved comments with new one etc.  
