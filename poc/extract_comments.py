@@ -1,6 +1,6 @@
 from dataclasses import dataclass, asdict
 import json
-from typing import List, Tuple
+from typing import List
 from tree_sitter import Language, Node, Parser
 import git
 import bisect
