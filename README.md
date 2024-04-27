@@ -33,6 +33,10 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+Another day without progress, I do not have idea how to solve problem of many edge cases.
+
+## 25.04.2024
+
 I wrote some extension that would work with PREFIX. However my conclusion is that it still does not solve most of the problems.  
 Also I am overthinking the problem of situation when user is turning off comments, writing something and turning them on again (in a loop).
 
