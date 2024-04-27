@@ -6,7 +6,7 @@ from .utils import get_bytes_from_file, get_lines_from_file, load_json
 from ..extract_comments import extract_comments
 
 
-@pytest.mark.parametrize("path", ["./tests/cases/happy_path/"])
+@pytest.mark.parametrize("path", ["./tests/cases/happy_path/", "./tests/cases/unknown_problem_1/"])
 def test_happy_path(path: str):
     # given
     file_in, file_out = path + "with_comments.py", path + "no_comments.py"
