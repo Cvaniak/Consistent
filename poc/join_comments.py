@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 
 def apply_comments_to_file(comments_data, lines):
@@ -35,7 +36,7 @@ def apply_comments_to_file(comments_data, lines):
     return adjusted_lines
 
 
-def main(source_file_path, output_file_path, json_comments):
+def main(source_file_path: Path, output_file_path: Path, json_comments: Path):
     with open(json_comments, "r", encoding="utf-8") as json_file:
         comments_data = json.load(json_file)
 
@@ -49,7 +50,7 @@ def main(source_file_path, output_file_path, json_comments):
 
 
 if __name__ == "__main__":
-    source_file_path = "main_no_comments.py"
-    output_file_path = "main_with_comments.py"
-    json_comments = "just_comments.json"
+    source_file_path = Path("main_no_comments.py")
+    output_file_path = Path("main_with_comments.py")
+    json_comments = Path("just_comments.json")
     main(source_file_path, output_file_path, json_comments)

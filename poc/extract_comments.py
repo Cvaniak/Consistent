@@ -1,5 +1,6 @@
 from dataclasses import dataclass, asdict
 import json
+from pathlib import Path
 from typing import List
 from tree_sitter import Language, Node, Parser
 import git
@@ -107,14 +108,14 @@ def extract_comments(input_file_path, source_code, lines):
 # Example of reading,
 # processing, and writing the file
 # also three line comment
-def main(input_file_path, output_file_path, output_comments_file_path):
+def main(input_file_path: Path, output_file_path: Path, output_comments_file_path: Path):
     with open(input_file_path, "r", encoding="utf-8") as file:
         source_code = file.read()
 
     with open(input_file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
-    new_lines, out_data = extract_comments(input_file_path, source_code, lines)
+    new_lines, out_data = extract_comments(str(input_file_path), source_code, lines)
 
     with open(output_file_path, "w", encoding="utf-8") as file:
         file.writelines(new_lines)
@@ -127,7 +128,7 @@ if __name__ == "__main__":
     input_file_path = "extract_comments.py"
     output_file_path = "main_no_comments.py"
     output_comments_file_path = "just_comments.json"
-    input_file_path = "./tests/cases/happy_path/with_comments.py"
-    output_file_path = "./tests/cases/happy_path/no_comments.py"
-    output_comments_file_path = "./tests/cases/happy_path/comments.json"
+    input_file_path = Path("./tests/cases/happy_path/with_comments.py")
+    output_file_path = Path("./tests/cases/happy_path/no_comments.py")
+    output_comments_file_path = Path("./tests/cases/happy_path/comments.json")
     main(input_file_path, output_file_path, output_comments_file_path)

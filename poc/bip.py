@@ -26,7 +26,7 @@ def extract(file: BipFile):
     """
     json_file = file.with_name(f"comments_{file.stem}.json")
 
-    extract_comments.main(str(file.absolute()), str(file.absolute()), json_file)
+    extract_comments.main(file.absolute(), file.absolute(), json_file)
     print(f"{file.stem} extracted to {json_file}")
     print(f"Some stats could be shown here")
 
