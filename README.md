@@ -33,6 +33,13 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+I run `extract_comments.py` and `join_comments.py` one after another on different Python source files to find edge cases.  
+If the source file is not same after two scripts it means that there might be edge case.
+
+So far I found edge case releated two variables defined in global space, which are under the `module` parent.
+
+## 26.04.2024
+
 Another day without progress, I do not have idea how to solve problem of many edge cases.
 
 ## 25.04.2024
