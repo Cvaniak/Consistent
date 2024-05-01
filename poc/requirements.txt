@@ -5,3 +5,5 @@ gitpython
 pytest
 
 typer
+pdbpp
+debugpy

@@ -6,8 +6,14 @@ from .utils import get_bytes_from_file, get_lines_from_file, load_json
 from ..extract_comments import extract_comments
 
 
-@pytest.mark.parametrize("path", ["./tests/cases/happy_path/", "./tests/cases/unknown_problem_1/"])
-def test_happy_path(path: str):
+@pytest.mark.parametrize(
+    "path,deleted_lines",
+    [
+        ("./tests/cases/happy_path/", [0, 8, 13, 18]),
+        ("./tests/cases/unknown_problem_1/", []),
+    ],
+)
+def test_happy_path(path: str, deleted_lines: list[int]):
     # given
     file_in, file_out = path + "with_comments.py", path + "no_comments.py"
     file_json = path + "comments.json"
@@ -22,5 +28,5 @@ def test_happy_path(path: str):
     # then
     assert new_lines == out_file
     assert asdict(data)["comments"] == data_out["comments"]
-    assert data.deleted_lines == [0, 8, 13, 18]
+    assert data.deleted_lines == deleted_lines
     assert data.commit_sha  # I will need to mock it or something

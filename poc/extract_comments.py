@@ -77,7 +77,7 @@ def remove_comments(tree, lines):
         if (
             node.parent.start_point[0] != start_p[0]
             and node.prev_sibling.start_point[0] != start_p[0]
-        ) or node.parent.type == "module":
+        ) or (node.parent.type == "module" and node.parent.start_point[0] == start_p[0]):
             lines[start_p[0]] = ""
             bisect.insort(deleted_lines, start_p[0])
         else:
