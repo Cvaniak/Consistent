@@ -33,10 +33,18 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+64
+To address the problem of possible double injecting comments and double extracting I think JSON needs to be "DB" with all comments.  
+We always needs to think that JSON contains all comments, and we can just apply them on code no matter if there is already this comment or not.  
+To do so it might be helpful to think about better format structure that would keep not a row in code but something semantic.  
+Also when join algorithm is running it first should gather all the comments, throw them to JSON, resolve duplicates and then apply the comments.
+
+## 29.04.2024
+
 I run `extract_comments.py` and `join_comments.py` one after another on different Python source files to find edge cases.  
 If the source file is not same after two scripts it means that there might be edge case.
 
-So far I found edge case releated two variables defined in global space, which are under the `module` parent.
+So far I found edge case related two variables defined in global space, which are under the `module` parent.
 
 ## 26.04.2024
 
@@ -54,7 +62,7 @@ For now I need to focus to finish base idea and write down all needed features.
 The double join problem made me think that we need to have any kind of control over the state.
 We can try to determine it on the fly or we can save it somewhere.  
 In both cases the problem is that user might mix the already saved comments with new one etc.  
-It will always create problems like the comments that are partially loaded or modified.  
+It will always create problems like the comments that are partially loaded or modified.
 
 To prevent that I think that we can make the comments with prefix like `# LOCAL: this is comment`.  
 This way you see if the comments are loaded or not. You never delete comments that are not meant for deletion.  
@@ -79,7 +87,7 @@ After refactor and first test case I will probably continue with this approach. 
 After many hours I decided to check how `linting` tools manage tests.  
 This won't only be helpful in `PoC` but especially in final solution, where the tests will be crucial.
 
-I decided to check the test code for `black` and `isort`. It is almost terrifying 
+I decided to check the test code for `black` and `isort`. It is almost terrifying
 
 ## 07.04.2024
 
