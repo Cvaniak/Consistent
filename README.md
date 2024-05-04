@@ -33,7 +33,17 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
-64
+## 04.05.2024
+
+At first I was worry that the JSON needs to keep only comment and minimum data.  
+But with this limitation it might be really hard to have good data structure.
+
+New idea for data structure is to keep whole "branch" of AST (Abstract Syntax Tree) next to comment.  
+In each file there always be only unique "branches" like `class -> function -> variable`. It can be nested
+any number of times but at the end there will be comment. It already should tell us where the comment should be placed.
+
+## 03.05.2024
+
 To address the problem of possible double injecting comments and double extracting I think JSON needs to be "DB" with all comments.  
 We always needs to think that JSON contains all comments, and we can just apply them on code no matter if there is already this comment or not.  
 To do so it might be helpful to think about better format structure that would keep not a row in code but something semantic.  
