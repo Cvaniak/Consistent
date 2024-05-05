@@ -3,6 +3,7 @@ ruff
 black
 gitpython
 pytest
+tree-sitter-python
 
 typer
 pdbpp
