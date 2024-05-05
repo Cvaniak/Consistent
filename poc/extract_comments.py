@@ -108,7 +108,9 @@ def extract_comments(input_file_path, source_code, lines):
 # Example of reading,
 # processing, and writing the file
 # also three line comment
-def main(input_file_path: Path, output_file_path: Path, output_comments_file_path: Path):
+def main(
+    input_file_path: Path, output_file_path: Path, output_comments_file_path: Path
+):
     with open(input_file_path, "r", encoding="utf-8") as file:
         source_code = file.read()
 
