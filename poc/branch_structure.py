@@ -2,8 +2,7 @@ from dataclasses import dataclass, asdict
 import json
 from pathlib import Path
 from typing import List
-from tree_sitter import Language, Node, Parser, Tree
-import tree_sitter_python as tspython
+from tree_sitter import Node, Tree
 import git
 import bisect
 
@@ -27,16 +26,6 @@ class CommentsStruct:
     deleted_lines: List[int]
     commit_sha: str
     file_name: str
-
-
-# Load the language library (Adjust the path to your compiled language library)
-def get_tree(source_code):
-    PY_LANGUAGE = Language(tspython.language(), "python")
-    parser = Parser()
-    parser.set_language(PY_LANGUAGE)
-
-    tree = parser.parse(bytes(source_code, "utf8"))
-    return tree
 
 
 def collect_comment_nodes(tree: Tree):
@@ -109,7 +98,7 @@ def get_commit_sha():
 
 
 def extract_comments(input_file_path, source_code, lines):
-    tree = get_tree(source_code)
+    tree = get_tre(source_code)
     comments, deleted_lines, new_lines = remove_comments(tree, lines)
 
     out_data = CommentsStruct(

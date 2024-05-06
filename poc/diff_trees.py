@@ -1,6 +1,8 @@
 from typing import Any, List, Optional
-from tree_sitter import Language, Node, Parser
+from tree_sitter import Node
 from dataclasses import dataclass
+
+from utils import load_language
 
 
 @dataclass
@@ -21,18 +23,6 @@ class SerTree:
 class Foo:
     b: SerTree
     a: Optional[SerTree] = None
-
-
-def load_language():
-    Language.build_library(
-        "build/my-languages.so",
-        ["tree-sitter-python"],
-    )
-
-    PY_LANGUAGE = Language("build/my-languages.so", "python")
-    parser = Parser()
-    parser.set_language(PY_LANGUAGE)
-    return parser
 
 
 def parse_file(file_path, parser):

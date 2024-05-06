@@ -2,9 +2,11 @@ from dataclasses import dataclass, asdict
 import json
 from pathlib import Path
 from typing import List
-from tree_sitter import Language, Node, Parser
+from tree_sitter import Node
 import git
 import bisect
+
+from utils import get_tree
 
 
 @dataclass
@@ -26,20 +28,6 @@ class CommentsStruct:
     commit_sha: str
     file_name: str
 
-
-# Load the language library (Adjust the path to your compiled language library)
-def get_tree(source_code):
-    Language.build_library(
-        "build/my-languages.so",
-        ["tree-sitter-python"],  # Assuming the grammar files are correctly configured
-    )
-
-    PY_LANGUAGE = Language("build/my-languages.so", "python")
-    parser = Parser()
-    parser.set_language(PY_LANGUAGE)
-
-    tree = parser.parse(bytes(source_code, "utf8"))
-    return tree
 
 
 def collect_comment_nodes(tree):
