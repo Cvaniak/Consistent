@@ -4,6 +4,8 @@ import extract_comments
 import join_comments
 from pathlib import Path
 
+from utils import get_tree
+
 app = typer.Typer(no_args_is_help=True)
 
 BipFile = Annotated[
@@ -28,7 +30,7 @@ def extract(file: BipFile):
 
     extract_comments.main(file.absolute(), file.absolute(), json_file)
     print(f"{file.stem} extracted to {json_file}")
-    print(f"Some stats could be shown here")
+    print("Some stats could be shown here")
 
 
 @app.command()
@@ -44,7 +46,23 @@ def join(file: BipFile):
     join_comments.main(file.absolute(), file.absolute(), json_file)
 
     print(f"{file.stem} is joined with {json_file.stem}")
-    print(f"Some stats could be shown here")
+    print("Some stats could be shown here")
+
+
+@app.command()
+def list_comments(file: BipFile):
+    """
+    List all comments existing in code
+    """
+    with open(file, "r", encoding="utf-8") as f:
+        source_code = f.read()
+    tree = get_tree(source_code)
+
+    comment_nodes = extract_comments.collect_comment_nodes(tree)
+
+    for comment in comment_nodes:
+        print(f"line {comment.start_point[0]}:\n{comment.text.decode('utf8')}")
+        
 
 
 if __name__ == "__main__":
