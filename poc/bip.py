@@ -4,7 +4,7 @@ import extract_comments
 import join_comments
 from pathlib import Path
 
-from utils import get_tree
+from .utils import get_tree
 
 app = typer.Typer(no_args_is_help=True)
 

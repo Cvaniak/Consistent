@@ -2,7 +2,7 @@ from typing import Any, List, Optional
 from tree_sitter import Node
 from dataclasses import dataclass
 
-from utils import load_language
+from .utils import load_language
 
 
 @dataclass

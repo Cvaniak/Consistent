@@ -6,7 +6,7 @@ from tree_sitter import Node
 import git
 import bisect
 
-from utils import get_tree
+from .utils import get_tree
 
 
 @dataclass
