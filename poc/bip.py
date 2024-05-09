@@ -62,7 +62,6 @@ def list_comments(file: BipFile):
 
     for comment in comment_nodes:
         print(f"line {comment.start_point[0]}:\n{comment.text.decode('utf8')}")
-        
 
 
 if __name__ == "__main__":

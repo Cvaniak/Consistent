@@ -6,6 +6,8 @@ from tree_sitter import Node, Tree
 import git
 import bisect
 
+from utils import get_tree
+
 
 @dataclass
 class Position:
@@ -98,7 +100,7 @@ def get_commit_sha():
 
 
 def extract_comments(input_file_path, source_code, lines):
-    tree = get_tre(source_code)
+    tree = get_tree(source_code)
     comments, deleted_lines, new_lines = remove_comments(tree, lines)
 
     out_data = CommentsStruct(

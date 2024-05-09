@@ -1,4 +1,6 @@
+from pathlib import Path
 from tree_sitter import Language, Parser
+import hashlib
 import tree_sitter_python as tspython
 
 
@@ -17,3 +19,7 @@ def get_tree(source_code):
     return tree
 
 
+def get_file_hash(file: Path):
+    with open(file, "rb") as f:
+        digest = hashlib.file_digest(f, "sha256")
+    return digest

@@ -22,12 +22,17 @@ class Comment:
 
 
 @dataclass
+class FileMetadata:
+    commit_sha: str
+    file_name: str
+    file_sha: str
+
+
+@dataclass
 class CommentsStruct:
     comments: List[Comment]
     deleted_lines: List[int]
-    commit_sha: str
-    file_name: str
-
+    file_metadata: FileMetadata
 
 
 def collect_comment_nodes(tree):
