@@ -30,8 +30,14 @@ The `poc` contains three files:
 For now all tests are done on `Python` files, as the `TreeSitter` might work differently for other formats.
 
 ---
-
 ## Newest update
+
+## 10.05.2024
+
+I wont be able to rewrite any of this to Rust as I planed initialy.
+Instead I will focus to deliver working flow in Python.  
+
+I need to restructure my scripts and prepare them for pip install.
 
 ## 04.05.2024
 
