@@ -1,5 +1,5 @@
-from .utils import get_lines_from_file
-from ..diff_trees import (
+from tests.utils import get_lines_from_file
+from bip.diff_trees import (
     apply_missing_comments,
     find_missing_comments,
     get_serialized_tree,

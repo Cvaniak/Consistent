@@ -1,10 +1,10 @@
 from typing import Annotated
 import typer
-import extract_comments
-import join_comments
 from pathlib import Path
 
-from .utils import get_tree
+from bip.utils import get_tree
+from bip import extract_comments
+from bip import join_comments
 
 app = typer.Typer(no_args_is_help=True)
 

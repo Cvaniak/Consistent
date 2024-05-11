@@ -1,7 +1,7 @@
 import pytest
 
-from ..join_comments import apply_comments_to_file
-from .utils import get_lines_from_file, load_json
+from bip.join_comments import apply_comments_to_file
+from tests.utils import get_lines_from_file, load_json
 
 
 @pytest.mark.parametrize("path", ["./tests/cases/happy_path/"])
