@@ -1,12 +1,12 @@
 from dataclasses import dataclass, asdict
 import json
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 from tree_sitter import Node
 import git
 import bisect
 
-from .utils import get_tree
+from bip.utils import get_tree
 
 
 @dataclass
@@ -32,7 +32,7 @@ class FileMetadata:
 class CommentsStruct:
     comments: List[Comment]
     deleted_lines: List[int]
-    file_metadata: FileMetadata
+    file_metadata: Optional[FileMetadata] = None
 
 
 def collect_comment_nodes(tree):
@@ -91,9 +91,9 @@ def extract_comments(input_file_path, source_code, lines):
     tree = get_tree(source_code)
     comments, deleted_lines, new_lines = remove_comments(tree, lines)
 
-    out_data = CommentsStruct(
-        comments, deleted_lines, get_commit_sha(), input_file_path
-    )
+    metadata = FileMetadata(get_commit_sha(), input_file_path, "XYZ")
+
+    out_data = CommentsStruct(comments, deleted_lines, metadata)
 
     return new_lines, out_data
 
