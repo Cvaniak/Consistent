@@ -22,4 +22,12 @@ def get_tree(source_code):
 def get_file_hash(file: Path):
     with open(file, "rb") as f:
         digest = hashlib.file_digest(f, "sha256")
-    return digest
+    return str(digest)
+
+
+def compare_files(json_file: Path, file: Path) -> bool:
+    hash = get_file_hash(file)
+    with open(json_comments, "r", encoding="utf-8") as json_file:
+        comments_data = json.load(json_file)
+
+    return hash == comments_data["file_metadata"]["file_sha"]

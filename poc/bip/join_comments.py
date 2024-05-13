@@ -5,8 +5,6 @@ from pathlib import Path
 def apply_comments_to_file(comments_data, lines):
     adjusted_lines = lines
 
-    # NOTE: this is absolutely horribly unoptimized
-    # NOTE: but this is just PoC
     for line_to_append in comments_data["deleted_lines"]:
         adjusted_lines.insert(line_to_append, "")
 
@@ -23,15 +21,7 @@ def apply_comments_to_file(comments_data, lines):
                 adjusted_lines[line_number][:-1].rstrip() + "  " + comment_text + "\n"
             )
         else:
-            # TODO: it means something changed too much
             ...
-            # print(
-            #     line_number,
-            #     repr(adjusted_lines[line_number]),
-            #     len(adjusted_lines[line_number]),
-            #     column,
-            # )
-            # raise ValueError
 
     return adjusted_lines
 

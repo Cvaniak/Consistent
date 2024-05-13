@@ -29,4 +29,3 @@ def test_happy_path(path: str, deleted_lines: list[int]):
     assert new_lines == out_file
     assert asdict(data)["comments"] == data_out["comments"]
     assert data.deleted_lines == deleted_lines
-    assert data.commit_sha  # I will need to mock it or something

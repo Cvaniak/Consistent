@@ -6,7 +6,7 @@ from tree_sitter import Node
 import git
 import bisect
 
-from bip.utils import get_tree
+from bip.utils import get_tree, get_file_hash
 
 
 @dataclass
@@ -91,7 +91,7 @@ def extract_comments(input_file_path, source_code, lines):
     tree = get_tree(source_code)
     comments, deleted_lines, new_lines = remove_comments(tree, lines)
 
-    metadata = FileMetadata(get_commit_sha(), input_file_path, "XYZ")
+    metadata = FileMetadata(get_commit_sha(), input_file_path, get_file_hash(input_file_path))
 
     out_data = CommentsStruct(comments, deleted_lines, metadata)
 

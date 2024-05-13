@@ -41,8 +41,10 @@ def join(file: BipFile):
     json_file = file.with_name(f"comments_{file.stem}.json")
     if not json_file.exists():
         raise typer.BadParameter("File does not exist.")
+
     # TODO: Check if json file with comments is compatible for simple join
     # TODO: Prepare strategy for harder files
+    compare_files(json_file, file)
     join_comments.main(file.absolute(), file.absolute(), json_file)
 
     print(f"{file.stem} is joined with {json_file.stem}")
