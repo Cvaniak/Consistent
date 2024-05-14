@@ -1,4 +1,6 @@
+import json
 from pathlib import Path
+from typing import List
 from tree_sitter import Language, Parser
 import hashlib
 import tree_sitter_python as tspython
@@ -22,12 +24,20 @@ def get_tree(source_code):
 def get_file_hash(file: Path):
     with open(file, "rb") as f:
         digest = hashlib.file_digest(f, "sha256")
-    return str(digest)
+    return digest.hexdigest()
+
+
+def get_lines_hash(lines: List[str]):
+    joined_lines = "".join(lines).encode("utf-8")
+    hasher = hashlib.sha256()
+    hasher.update(joined_lines)
+
+    return hasher.hexdigest()
 
 
 def compare_files(json_file: Path, file: Path) -> bool:
     hash = get_file_hash(file)
-    with open(json_comments, "r", encoding="utf-8") as json_file:
-        comments_data = json.load(json_file)
+    with open(json_file, "r", encoding="utf-8") as f:
+        comments_data = json.load(f)
 
     return hash == comments_data["file_metadata"]["file_sha"]

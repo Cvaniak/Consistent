@@ -2,9 +2,9 @@ from typing import Annotated
 import typer
 from pathlib import Path
 
-from bip.utils import get_tree
 from bip import extract_comments
 from bip import join_comments
+from bip.utils import compare_files, get_tree
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -44,11 +44,12 @@ def join(file: BipFile):
 
     # TODO: Check if json file with comments is compatible for simple join
     # TODO: Prepare strategy for harder files
-    compare_files(json_file, file)
-    join_comments.main(file.absolute(), file.absolute(), json_file)
-
-    print(f"{file.stem} is joined with {json_file.stem}")
-    print("Some stats could be shown here")
+    if compare_files(json_file, file):
+        join_comments.main(file.absolute(), file.absolute(), json_file)
+        print(f"{file.stem} is joined with {json_file.stem}")
+        print("Some stats could be shown here")
+    else:
+        ...
 
 
 @app.command()
