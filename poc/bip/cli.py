@@ -1,10 +1,11 @@
+import json
 from typing import Annotated
 import typer
 from pathlib import Path
 
-from bip import extract_comments
+from bip import diff_trees, extract_comments
 from bip import join_comments
-from bip.utils import compare_files, get_tree
+from bip.utils import compare_files, get_file_by_commit_sha, get_tree
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -42,15 +43,13 @@ def join(file: BipFile):
     if not json_file.exists():
         raise typer.BadParameter("File does not exist.")
 
-    # TODO: Check if json file with comments is compatible for simple join
-    # TODO: Prepare strategy for harder files
     if compare_files(json_file, file):
         join_comments.main(file.absolute(), file.absolute(), json_file)
         print(f"{file.stem} is joined with {json_file.stem}")
         print("Some stats could be shown here")
     else:
-        ...
-
+        diff_trees.main_between_commits(file, json_file)
+        print(f"Difficult case")
 
 @app.command()
 def list_comments(file: BipFile):

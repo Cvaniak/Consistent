@@ -4,6 +4,7 @@ from typing import List
 from tree_sitter import Language, Parser
 import hashlib
 import tree_sitter_python as tspython
+import git
 
 
 def load_language():
@@ -41,3 +42,21 @@ def compare_files(json_file: Path, file: Path) -> bool:
         comments_data = json.load(f)
 
     return hash == comments_data["file_metadata"]["file_sha"]
+
+
+def get_file_by_commit_sha(file: Path, commit_sha: str):
+    repo = git.Repo(search_parent_directories=True)
+
+    # Get the commit
+    commit = repo.commit(commit_sha)
+
+    # Get the file content at the specific commit
+    
+    repo_path = Path(repo.working_tree_dir).resolve()
+    file_path = Path(file).resolve()
+
+    file_content = (commit.tree / str(file_path.relative_to(repo_path)))
+
+    # Print the content
+    # return file_content.data_stream.read().decode("utf-8")
+    return file_content.data_stream.read()

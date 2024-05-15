@@ -1,8 +1,10 @@
+import json
+from pathlib import Path
 from typing import Any, List, Optional
 from tree_sitter import Node
 from dataclasses import dataclass
 
-from bip.utils import load_language
+from bip.utils import get_file_by_commit_sha, load_language
 
 
 @dataclass
@@ -67,6 +69,14 @@ def get_serialized_tree(file_path, parser):
 
     return serialized_tree
 
+
+def get_serialized_tree_bytes(file, parser):
+    tree = parser.parse(file)
+
+    serialized_tree = []
+    serialize_tree(tree.root_node, serialized_tree, True)
+
+    return serialized_tree
 
 def lcs(tree_a, tree_b):
     m, n = len(tree_a), len(tree_b)
@@ -189,6 +199,30 @@ def main(file_in_1: str, file_in_2: str, file_out: str):
 
     with open(file_out, "w", encoding="utf-8") as output_file:
         output_file.writelines(content)
+
+
+def main_between_commits(file: Path, json_file: Path):
+    parser = load_language()
+    with open(json_file, "r", encoding="utf-8") as f:
+        comments_data = json.load(f)
+
+    original_file = get_file_by_commit_sha(
+        file, comments_data["file_metadata"]["commit_sha"]
+    )
+
+    tree1 = get_serialized_tree_bytes(original_file, parser)
+    tree2 = get_serialized_tree(file, parser)
+
+    added = find_missing_comments(tree1, tree2)
+
+    display_diff(added)
+    with open(file, "r") as f:
+        origin_file_data = f.readlines()
+
+    content = apply_missing_comments(origin_file_data, added)
+
+    with open(file, "w", encoding="utf-8") as f:
+        f.writelines(content)
 
 
 if __name__ == "__main__":
