@@ -30,12 +30,20 @@ The `poc` contains three files:
 For now all tests are done on `Python` files, as the `TreeSitter` might work differently for other formats.
 
 ---
+
 ## Newest update
+
+## 15.05.2024
+
+There is bug that if there is many lines comment then in diff_tree only one is attached.
+
+Also the code works on files only in this repo (because we use commits from current repo).
+We also need to handle situtaion where there is no repo.
 
 ## 10.05.2024
 
 I wont be able to rewrite any of this to Rust as I planed initialy.
-Instead I will focus to deliver working flow in Python.  
+Instead I will focus to deliver working flow in Python.
 
 I need to restructure my scripts and prepare them for pip install.
 
