@@ -18,7 +18,7 @@ class Position:
 @dataclass
 class Comment:
     start: Position
-    text: str
+    text: list[str]
 
 
 @dataclass
@@ -57,14 +57,20 @@ def remove_comments(tree, lines):
     comments = []
     deleted_lines = []
 
+    batched = 1 
     # Remove comments by replacing them with spaces (to preserve formatting)
-    for node in reversed(comment_nodes):  # Reverse to avoid offset issues
+    for node in comment_nodes:  # Reverse to avoid offset issues
         start_p, end_p = node.start_point, node.end_point
 
-        comment = Comment(
-            start=Position(*start_p), text=lines[start_p[0]][start_p[1] : end_p[1]]
-        )
-        comments.append(comment)
+        if comments and comments[-1].start.row == start_p[0]-batched:
+            comments[-1].text.append(lines[start_p[0]][start_p[1] : end_p[1]])
+            batched += 1
+        else:
+            comment = Comment(
+                start=Position(*start_p), text=[lines[start_p[0]][start_p[1] : end_p[1]]]
+            )
+            comments.append(comment)
+            batched = 1
 
         # TODO: here was edge case, needs to be watched for more
         if (

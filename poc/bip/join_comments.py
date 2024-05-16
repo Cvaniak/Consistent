@@ -13,7 +13,7 @@ def apply_comments_to_file(comments_data, lines):
     for comment in comments_data["comments"]:
         tmp = comment["start"]
         line_number, column = tmp["row"], tmp["column"]
-        comment_text = comment["text"]
+        comment_text = "\n".join(comment["text"])
         if len(adjusted_lines[line_number]) == 0:
             adjusted_lines[line_number] = (
                 " " * (column - len(adjusted_lines[line_number])) + comment_text + "\n"
