@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+def foo():
+    ...
 
 def apply_comments_to_file(comments_data, lines):
     adjusted_lines = lines
@@ -13,7 +15,7 @@ def apply_comments_to_file(comments_data, lines):
     for comment in comments_data["comments"]:
         tmp = comment["start"]
         line_number, column = tmp["row"], tmp["column"]
-        comment_text = "\n".join(comment["text"])
+        comment_text = comment["text"]
         if len(adjusted_lines[line_number]) == 0:
             adjusted_lines[line_number] = (
                 " " * (column - len(adjusted_lines[line_number])) + comment_text + "\n"
@@ -25,6 +27,7 @@ def apply_comments_to_file(comments_data, lines):
         else:
             # TODO: it means something changed too much
             ...
+
             # print(
             #     line_number,
             #     repr(adjusted_lines[line_number]),
@@ -32,7 +35,6 @@ def apply_comments_to_file(comments_data, lines):
             #     column,
             # )
             # raise ValueError
-
     return adjusted_lines
 
 

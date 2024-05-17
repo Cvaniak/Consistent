@@ -16,6 +16,7 @@ class SerTree:
     alone: bool = True
     node: Optional[Any] = None
     column: int = 0
+    below_comment = False
 
     def __eq__(self, other):
         return self.text == other.text
@@ -48,6 +49,8 @@ def serialize_tree(node: Node, serialized_list, base_tree=False):
                 x.node = serialized_list[-1]
                 serialized_list[-1].marked = True
                 serialized_list[-1].node = x
+            if serialized_list and serialized_list[-1].comment:
+                x.below_comment = serialized_list[-1]
         else:
             if (
                 serialized_list
@@ -151,11 +154,21 @@ def apply_missing_comments(content, diffs):
     for item in diffs:
         if item.a is not None:
             if item.b.alone:
-                x = item.b.text
-                if x[-1] != "\n":
-                    x = x + "\n"
-                content.insert(item.a.line + shift, " " * item.b.column + x)
-                shift += 1
+                lines = []
+                curr = item.b
+                while curr.below_comment:
+                    lines.append(curr)
+                    curr = curr.below_comment
+                lines.append(curr)
+
+                row = item.a.line
+                for line in reversed(lines):
+                    x = line.text
+                    if x[-1] != "\n":
+                        x = x + "\n"
+                    content.insert(row + shift, " " * line.column + x)
+                    shift += 1
+
             else:
                 if len(content) <= item.a.line + shift:
                     print("ojoj", item.a.line, shift, item.b.text)
