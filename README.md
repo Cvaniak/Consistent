@@ -33,6 +33,10 @@ For now all tests are done on `Python` files, as the `TreeSitter` might work dif
 
 ## Newest update
 
+## 18.05.2024
+
+While extracting comments we should add info if they are alone in line or next to code.
+
 ## 15.05.2024
 
 There is bug that if there is many lines comment then in diff_tree only one is attached.
