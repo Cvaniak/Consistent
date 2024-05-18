@@ -26,13 +26,6 @@ def apply_comments_to_file(comments_data, lines):
             # TODO: it means something changed too much
             ...
 
-            # print(
-            #     line_number,
-            #     repr(adjusted_lines[line_number]),
-            #     len(adjusted_lines[line_number]),
-            #     column,
-            # )
-            # raise ValueError
     return adjusted_lines
 
 

@@ -3,10 +3,9 @@ import json
 from pathlib import Path
 from typing import List, Optional
 from tree_sitter import Node
-import git
 import bisect
 
-from bip.utils import get_lines_hash, get_tree, get_file_hash
+from bip.utils import get_commit_sha, get_lines_hash, get_tree
 
 
 @dataclass
@@ -79,12 +78,6 @@ def remove_comments(tree, lines):
     lines = [x for x in lines if x != ""]
 
     return comments, deleted_lines, lines
-
-
-def get_commit_sha():
-    repo = git.Repo(search_parent_directories=True)
-    sha = repo.head.object.hexsha
-    return sha
 
 
 def extract_comments(input_file_path, source_code, lines):

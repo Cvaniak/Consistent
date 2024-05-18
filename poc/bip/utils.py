@@ -60,3 +60,9 @@ def get_file_by_commit_sha(file: Path, commit_sha: str):
     # Print the content
     # return file_content.data_stream.read().decode("utf-8")
     return file_content.data_stream.read()
+
+
+def get_commit_sha():
+    repo = git.Repo(search_parent_directories=True)
+    sha = repo.head.object.hexsha
+    return sha
