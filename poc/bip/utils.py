@@ -51,11 +51,11 @@ def get_file_by_commit_sha(file: Path, commit_sha: str):
     commit = repo.commit(commit_sha)
 
     # Get the file content at the specific commit
-    
+
     repo_path = Path(repo.working_tree_dir).resolve()
     file_path = Path(file).resolve()
 
-    file_content = (commit.tree / str(file_path.relative_to(repo_path)))
+    file_content = commit.tree / str(file_path.relative_to(repo_path))
 
     # Print the content
     # return file_content.data_stream.read().decode("utf-8")

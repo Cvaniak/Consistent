@@ -81,6 +81,7 @@ def get_serialized_tree_bytes(file, parser):
 
     return serialized_tree
 
+
 def lcs(tree_a, tree_b):
     m, n = len(tree_a), len(tree_b)
     matrix = [[0] * (n + 1) for _ in range(m + 1)]
@@ -228,7 +229,6 @@ def main_between_commits(file: Path, json_file: Path):
 
     added = find_missing_comments(tree1, tree2)
 
-    display_diff(added)
     with open(file, "r") as f:
         origin_file_data = f.readlines()
 

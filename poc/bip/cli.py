@@ -51,6 +51,7 @@ def join(file: BipFile):
         diff_trees.main_between_commits(file, json_file)
         print(f"Difficult case")
 
+
 @app.command()
 def list_comments(file: BipFile):
     """
