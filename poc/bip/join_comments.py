@@ -1,8 +1,6 @@
 import json
 from pathlib import Path
 
-def foo():
-    ...
 
 def apply_comments_to_file(comments_data, lines):
     adjusted_lines = lines
