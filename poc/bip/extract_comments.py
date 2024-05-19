@@ -18,6 +18,7 @@ class Position:
 class Comment:
     start: Position
     text: str
+    is_inline: bool
 
 
 @dataclass
@@ -59,11 +60,8 @@ def remove_comments(tree, lines):
     # Remove comments by replacing them with spaces (to preserve formatting)
     for node in reversed(comment_nodes):  # Reverse to avoid offset issues
         start_p, end_p = node.start_point, node.end_point
-
-        comment = Comment(
-            start=Position(*start_p), text=lines[start_p[0]][start_p[1] : end_p[1]]
-        )
-        comments.append(comment)
+        is_inline = False
+        text = lines[start_p[0]][start_p[1] : end_p[1]]
 
         # TODO: here was edge case, needs to be watched for more
         if (
@@ -74,6 +72,14 @@ def remove_comments(tree, lines):
             bisect.insort(deleted_lines, start_p[0])
         else:
             lines[start_p[0]] = lines[start_p[0]][: start_p[1]].rstrip() + "\n"
+            is_inline = True
+
+        comment = Comment(
+            start=Position(*start_p),
+            text=text,
+            is_inline=is_inline,
+        )
+        comments.append(comment)
 
     lines = [x for x in lines if x != ""]
 
