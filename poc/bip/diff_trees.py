@@ -149,7 +149,7 @@ def display_diff(added: List[Foo]):
         print()
 
 
-# TODO: Remmber it is modified in place
+# TODO: Remember it is modified in place
 def apply_missing_comments(content, diffs):
     shift = 0
     for item in diffs:

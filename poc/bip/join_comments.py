@@ -3,10 +3,9 @@ from pathlib import Path
 
 
 def apply_comments_to_file(comments_data, lines):
+    # NOTE: it modify original lines. Would need deep copy but might not be necessary
     adjusted_lines = lines
 
-    # NOTE: this is absolutely horribly unoptimized
-    # NOTE: but this is just PoC
     for line_to_append in comments_data["deleted_lines"]:
         adjusted_lines.insert(line_to_append, "")
 
@@ -14,17 +13,20 @@ def apply_comments_to_file(comments_data, lines):
         tmp = comment["start"]
         line_number, column = tmp["row"], tmp["column"]
         comment_text = comment["text"]
-        if len(adjusted_lines[line_number]) == 0:
-            adjusted_lines[line_number] = (
-                " " * (column - len(adjusted_lines[line_number])) + comment_text + "\n"
-            )
+        is_inline = comment["is_inline"]
+
+        # NOTE: line is empty
+        if not is_inline:
+            adjusted_lines[line_number] = " " * column + comment_text + "\n"
+
+        # NOTE: apply on right side of the code. Removes trailing spaces and apply exactly 2 spaces.
         elif len(adjusted_lines[line_number][:-1]) <= column:
             adjusted_lines[line_number] = (
                 adjusted_lines[line_number][:-1].rstrip() + "  " + comment_text + "\n"
             )
+
         else:
-            # TODO: it means something changed too much
-            ...
+            raise ValueError("It should not happen.")
 
     return adjusted_lines
 
