@@ -2,7 +2,7 @@ from tests.utils import get_lines_from_file
 from bip.diff_trees import (
     apply_missing_comments,
     find_missing_comments,
-    get_serialized_tree,
+    get_serialized_tree_bytes,
     load_language,
 )
 
@@ -18,13 +18,17 @@ def parser():
 @pytest.fixture
 def old_tree(path, parser):
     old_file = path + "for_diff.py"
-    return get_serialized_tree(old_file, parser)
+    with open(old_file, "rb") as f:
+        file_bytes = f.read()
+    return get_serialized_tree_bytes(file_bytes, parser)
 
 
 @pytest.fixture
 def new_tree(path, parser):
     new_file = path + "no_comments.py"
-    return get_serialized_tree(new_file, parser)
+    with open(new_file, "rb") as f:
+        file_bytes = f.read()
+    return get_serialized_tree_bytes(file_bytes, parser)
 
 
 class TestFindMissingComments:

@@ -1,10 +1,10 @@
 import json
 from pathlib import Path
-from typing import Any, List, Optional
-from tree_sitter import Node
+from typing import List, Optional
+from tree_sitter import Node, Parser
 from dataclasses import dataclass
 
-from bip.utils import get_file_by_commit_sha, load_language
+from bip.utils import get_file_bytes_by_commit_sha, load_language
 
 
 @dataclass
@@ -14,9 +14,9 @@ class SerTree:
     comment: bool = False
     marked: bool = False
     alone: bool = True
-    node: Optional[Any] = None
+    node: Optional["SerTree"] = None
     column: int = 0
-    below_comment = False
+    below_comment: Optional["SerTree"] = None
 
     def __eq__(self, other):
         return self.text == other.text
@@ -28,13 +28,7 @@ class Foo:
     a: Optional[SerTree] = None
 
 
-def parse_file(file_path, parser):
-    with open(file_path, "rb") as file:
-        content = file.read()
-    return parser.parse(content)
-
-
-def serialize_tree(node: Node, serialized_list, base_tree=False):
+def serialize_tree(node: Node, serialized_list: list[SerTree], base_tree=False) -> None:
     if node.child_count > 0:
         for child in node.children:
             serialize_tree(child, serialized_list, base_tree)
@@ -64,16 +58,7 @@ def serialize_tree(node: Node, serialized_list, base_tree=False):
         serialized_list.append(x)
 
 
-def get_serialized_tree(file_path, parser):
-    tree = parse_file(file_path, parser)
-
-    serialized_tree = []
-    serialize_tree(tree.root_node, serialized_tree, True)
-
-    return serialized_tree
-
-
-def get_serialized_tree_bytes(file, parser):
+def get_serialized_tree_bytes(file: bytes, parser: Parser) -> list[SerTree]:
     tree = parser.parse(file)
 
     serialized_tree = []
@@ -82,7 +67,7 @@ def get_serialized_tree_bytes(file, parser):
     return serialized_tree
 
 
-def lcs(tree_a, tree_b):
+def lcs(tree_a: list[SerTree], tree_b: list[SerTree]) -> list[list[int]]:
     m, n = len(tree_a), len(tree_b)
     matrix = [[0] * (n + 1) for _ in range(m + 1)]
     for i in range(1, m + 1):
@@ -94,7 +79,13 @@ def lcs(tree_a, tree_b):
     return matrix
 
 
-def backtrack(matrix, tree_a, tree_b, i, j):
+def backtrack(
+    matrix: list[list[int]],
+    tree_a: list[SerTree],
+    tree_b: list[SerTree],
+    i: int,
+    j: int,
+):
     if i == 0 or j == 0:
         return []
     elif tree_a[i - 1] == tree_b[j - 1]:
@@ -200,8 +191,13 @@ def find_missing_comments(tree_a, tree_b):
 def main(file_in_1: str, file_in_2: str, file_out: str):
     parser = load_language()
 
-    tree1 = get_serialized_tree(file_in_1, parser)
-    tree2 = get_serialized_tree(file_in_2, parser)
+    with open(file_in_1, "rb") as file:
+        file_bytes_1 = file.read()
+    with open(file_in_2, "rb") as file:
+        file_bytes_2 = file.read()
+
+    tree1 = get_serialized_tree_bytes(file_bytes_1, parser)
+    tree2 = get_serialized_tree_bytes(file_bytes_2, parser)
 
     added = find_missing_comments(tree1, tree2)
 
@@ -220,12 +216,14 @@ def main_between_commits(file: Path, json_file: Path):
     with open(json_file, "r", encoding="utf-8") as f:
         comments_data = json.load(f)
 
-    original_file = get_file_by_commit_sha(
+    original_file = get_file_bytes_by_commit_sha(
         file, comments_data["file_metadata"]["commit_sha"]
     )
+    with open(file, "rb") as f:
+        file_bytes = f.read()
 
     tree1 = get_serialized_tree_bytes(original_file, parser)
-    tree2 = get_serialized_tree(file, parser)
+    tree2 = get_serialized_tree_bytes(file_bytes, parser)
 
     added = find_missing_comments(tree1, tree2)
 

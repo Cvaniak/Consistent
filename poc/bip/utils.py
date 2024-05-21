@@ -44,7 +44,7 @@ def compare_files(json_file: Path, file: Path) -> bool:
     return hash == comments_data["file_metadata"]["file_sha"]
 
 
-def get_file_by_commit_sha(file: Path, commit_sha: str):
+def get_file_bytes_by_commit_sha(file: Path, commit_sha: str) -> bytes:
     repo = git.Repo(search_parent_directories=True)
 
     # Get the commit
