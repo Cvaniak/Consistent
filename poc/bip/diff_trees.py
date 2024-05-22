@@ -8,15 +8,15 @@ from bip.utils import get_file_bytes_by_commit_sha, load_language
 
 
 @dataclass
-class SerTree:
+class LeafNode:
     text: str
     line: int
     comment: bool = False
     marked: bool = False
     alone: bool = True
-    node: Optional["SerTree"] = None
+    node: Optional["LeafNode"] = None
     column: int = 0
-    below_comment: Optional["SerTree"] = None
+    below_comment: Optional["LeafNode"] = None
 
     def __eq__(self, other):
         return self.text == other.text
@@ -24,50 +24,55 @@ class SerTree:
 
 @dataclass
 class Foo:
-    b: SerTree
-    a: Optional[SerTree] = None
+    b: LeafNode
+    a: Optional[LeafNode] = None
 
 
-def serialize_tree(node: Node, serialized_list: list[SerTree], base_tree=False) -> None:
+def serialize_tree(node: Node, leaf_nodes: list[LeafNode]) -> None:
+    # It contains children -> it is "leaf"
     if node.child_count > 0:
         for child in node.children:
-            serialize_tree(child, serialized_list, base_tree)
+            serialize_tree(child, leaf_nodes)
+
     else:
-        x = SerTree(
+        x = LeafNode(
             node.text.decode("utf-8"), node.start_point[0], column=node.start_point[1]
         )
+
         if node.type == "comment":
             x.comment = True
-            if serialized_list and serialized_list[-1].line == x.line:
-                x.alone = False
-                x.node = serialized_list[-1]
-                serialized_list[-1].marked = True
-                serialized_list[-1].node = x
-            if serialized_list and serialized_list[-1].comment:
-                x.below_comment = serialized_list[-1]
+            if leaf_nodes:
+                # If code is in the same line with comment
+                if leaf_nodes[-1].line == x.line:
+                    x.alone = False
+                    x.node = leaf_nodes[-1]
+                    leaf_nodes[-1].marked = True
+                    leaf_nodes[-1].node = x
+
+                # If previous node is also comment we group them
+                elif leaf_nodes[-1].comment:
+                    x.below_comment = leaf_nodes[-1]
+
         else:
-            if (
-                serialized_list
-                and serialized_list[-1].comment
-                and serialized_list[-1].alone
-            ):
+            # if previous leaf is comment we mark this node and attach comment node
+            if leaf_nodes and leaf_nodes[-1].comment and leaf_nodes[-1].alone:
                 x.marked = True
-                serialized_list[-1].node = x
-                x.node = serialized_list[-1]
+                leaf_nodes[-1].node = x
+                x.node = leaf_nodes[-1]
 
-        serialized_list.append(x)
+        leaf_nodes.append(x)
 
 
-def get_serialized_tree_bytes(file: bytes, parser: Parser) -> list[SerTree]:
+def get_serialized_tree_bytes(file: bytes, parser: Parser) -> list[LeafNode]:
     tree = parser.parse(file)
 
     serialized_tree = []
-    serialize_tree(tree.root_node, serialized_tree, True)
+    serialize_tree(tree.root_node, serialized_tree)
 
     return serialized_tree
 
 
-def lcs(tree_a: list[SerTree], tree_b: list[SerTree]) -> list[list[int]]:
+def lcs(tree_a: list[LeafNode], tree_b: list[LeafNode]) -> list[list[int]]:
     m, n = len(tree_a), len(tree_b)
     matrix = [[0] * (n + 1) for _ in range(m + 1)]
     for i in range(1, m + 1):
@@ -81,18 +86,20 @@ def lcs(tree_a: list[SerTree], tree_b: list[SerTree]) -> list[list[int]]:
 
 def backtrack(
     matrix: list[list[int]],
-    tree_a: list[SerTree],
-    tree_b: list[SerTree],
+    tree_a: list[LeafNode],
+    tree_b: list[LeafNode],
     i: int,
     j: int,
-):
+) -> list[Foo]:
     if i == 0 or j == 0:
         return []
+
     elif tree_a[i - 1] == tree_b[j - 1]:
         added = backtrack(matrix, tree_a, tree_b, i - 1, j - 1)
         if tree_a[i - 1].marked:
             added.append(Foo(a=tree_b[j - 1], b=tree_a[i - 1].node))
         return added
+
     else:
         if matrix[i][j - 1] > matrix[i - 1][j]:
             added = backtrack(matrix, tree_a, tree_b, i, j - 1)
@@ -141,7 +148,7 @@ def display_diff(added: List[Foo]):
 
 
 # TODO: Remember it is modified in place
-def apply_missing_comments(content, diffs):
+def apply_missing_comments(content: list[str], diffs: list[Foo]):
     shift = 0
     for item in diffs:
         if item.a is not None:
@@ -175,7 +182,7 @@ def apply_missing_comments(content, diffs):
     return content
 
 
-def find_missing_comments(tree_a, tree_b):
+def find_missing_comments(tree_a: list[LeafNode], tree_b: list[LeafNode]) -> list[Foo]:
     lcs_sequence = lcs(tree_a, tree_b)
 
     added = backtrack(
