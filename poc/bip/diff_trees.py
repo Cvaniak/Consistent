@@ -23,9 +23,9 @@ class LeafNode:
 
 
 @dataclass
-class Foo:
-    b: LeafNode
-    a: Optional[LeafNode] = None
+class MissingComments:
+    comment: LeafNode
+    target_node: Optional[LeafNode] = None
 
 
 def serialize_tree(node: Node, leaf_nodes: list[LeafNode]) -> None:
@@ -90,23 +90,32 @@ def backtrack(
     tree_b: list[LeafNode],
     i: int,
     j: int,
-) -> list[Foo]:
+) -> list[MissingComments]:
+    # Terminate
     if i == 0 or j == 0:
         return []
 
+    # If we have this node in both trees
     elif tree_a[i - 1] == tree_b[j - 1]:
         added = backtrack(matrix, tree_a, tree_b, i - 1, j - 1)
         if tree_a[i - 1].marked:
-            added.append(Foo(a=tree_b[j - 1], b=tree_a[i - 1].node))
+            added.append(
+                MissingComments(target_node=tree_b[j - 1], comment=tree_a[i - 1].node)
+            )
         return added
 
     else:
+        # If this node is only in newer tree
         if matrix[i][j - 1] > matrix[i - 1][j]:
             added = backtrack(matrix, tree_a, tree_b, i, j - 1)
+        # If this node is only in old tree
         else:
             added = backtrack(matrix, tree_a, tree_b, i - 1, j)
+            # This is node that have comment but we do not know where to put it
             if tree_a[i - 1].marked:
-                added.append(Foo(a=None, b=tree_a[i - 1].node))  # abandoned
+                added.append(
+                    MissingComments(target_node=None, comment=tree_a[i - 1].node)
+                )  # abandoned
         return added
 
 
@@ -133,34 +142,38 @@ def backtrack_add_remove(matrix, tree_a, tree_b, i, j):
         return added, removed, common
 
 
-def display_diff(added: List[Foo]):
+def display_diff(added: List[MissingComments]):
     # added, removed, common = backtrack(
 
     for item in added:
-        if item.a is not None:
-            if item.b.alone:
-                print(f"line: {item.a.line}\n{item.b.text}\n{item.a.text}")
+        if item.target_node is not None:
+            if item.comment.alone:
+                print(
+                    f"line: {item.target_node.line}\n{item.comment.text}\n{item.target_node.text}"
+                )
             else:
-                print(f"line: {item.a.line}\n{item.a.text} {item.b.text}")
+                print(
+                    f"line: {item.target_node.line}\n{item.target_node.text} {item.comment.text}"
+                )
         else:
-            print(f"abandoned: {item.b.text}")
+            print(f"abandoned: {item.comment.text}")
         print()
 
 
 # TODO: Remember it is modified in place
-def apply_missing_comments(content: list[str], diffs: list[Foo]):
+def apply_missing_comments(content: list[str], diffs: list[MissingComments]):
     shift = 0
     for item in diffs:
-        if item.a is not None:
-            if item.b.alone:
+        if item.target_node is not None:
+            if item.comment.alone:
                 lines = []
-                curr = item.b
+                curr = item.comment
                 while curr.below_comment:
                     lines.append(curr)
                     curr = curr.below_comment
                 lines.append(curr)
 
-                row = item.a.line
+                row = item.target_node.line
                 for line in reversed(lines):
                     x = line.text
                     if x[-1] != "\n":
@@ -169,20 +182,24 @@ def apply_missing_comments(content: list[str], diffs: list[Foo]):
                     shift += 1
 
             else:
-                if len(content) <= item.a.line + shift:
-                    print("ojoj", item.a.line, shift, item.b.text)
+                if len(content) <= item.target_node.line + shift:
+                    print("ojoj", item.target_node.line, shift, item.comment.text)
                     continue
 
-                x = content[item.a.line + shift][:-1]
+                x = content[item.target_node.line + shift][:-1]
 
-                content[item.a.line + shift] = x + "  " + item.b.text + "\n"
+                content[item.target_node.line + shift] = (
+                    x + "  " + item.comment.text + "\n"
+                )
         else:
             ...
 
     return content
 
 
-def find_missing_comments(tree_a: list[LeafNode], tree_b: list[LeafNode]) -> list[Foo]:
+def find_missing_comments(
+    tree_a: list[LeafNode], tree_b: list[LeafNode]
+) -> list[MissingComments]:
     lcs_sequence = lcs(tree_a, tree_b)
 
     added = backtrack(

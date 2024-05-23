@@ -5,7 +5,7 @@ from pathlib import Path
 
 from bip import diff_trees, extract_comments
 from bip import join_comments
-from bip.utils import compare_files, get_file_by_commit_sha, get_tree
+from bip.utils import compare_files, get_tree
 
 app = typer.Typer(no_args_is_help=True)
 
