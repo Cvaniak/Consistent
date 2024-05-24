@@ -160,39 +160,46 @@ def display_diff(added: List[MissingComments]):
         print()
 
 
-# TODO: Remember it is modified in place
+# NOTE: Remember it is modified in place
 def apply_missing_comments(content: list[str], diffs: list[MissingComments]):
+    # We apply from last line to first
+    # So we do not move
     shift = 0
+
     for item in diffs:
-        if item.target_node is not None:
-            if item.comment.alone:
-                lines = []
-                curr = item.comment
-                while curr.below_comment:
-                    lines.append(curr)
-                    curr = curr.below_comment
+        # This is abandoned
+        if item.target_node is None:
+            continue
+
+        if item.comment.alone:
+            lines = []
+            curr = item.comment
+            while curr.below_comment:
                 lines.append(curr)
+                curr = curr.below_comment
+            lines.append(curr)
 
-                row = item.target_node.line
-                for line in reversed(lines):
-                    x = line.text
-                    if x[-1] != "\n":
-                        x = x + "\n"
-                    content.insert(row + shift, " " * line.column + x)
-                    shift += 1
+            row = item.target_node.line
+            for line in reversed(lines):
+                x = line.text
+                if x[-1] != "\n":
+                    x = x + "\n"
+                content.insert(row + shift, " " * line.column + x)
+                shift += 1
 
-            else:
-                if len(content) <= item.target_node.line + shift:
-                    print("ojoj", item.target_node.line, shift, item.comment.text)
-                    continue
-
-                x = content[item.target_node.line + shift][:-1]
-
-                content[item.target_node.line + shift] = (
-                    x + "  " + item.comment.text + "\n"
-                )
         else:
-            ...
+            if len(content) <= item.target_node.line + shift:
+                # Should not happen
+                print(
+                    "Target node have line higher that file length",
+                    item.target_node.line,
+                    shift,
+                    item.comment.text,
+                )
+                continue
+
+            x = content[item.target_node.line + shift][:-1]
+            content[item.target_node.line + shift] = x + "  " + item.comment.text + "\n"
 
     return content
 
