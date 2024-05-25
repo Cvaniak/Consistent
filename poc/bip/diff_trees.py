@@ -172,6 +172,7 @@ def apply_missing_comments(content: list[str], diffs: list[MissingComments]):
             continue
 
         if item.comment.alone:
+            # Apply possibly grouped comments
             lines = []
             curr = item.comment
             while curr.below_comment:
