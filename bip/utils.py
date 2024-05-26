@@ -8,9 +8,9 @@ import git
 
 
 def load_language():
-    PY_LANGUAGE = Language(tspython.language(), "python")
+    PY_LANGUAGE = Language(tspython.language())
     parser = Parser()
-    parser.set_language(PY_LANGUAGE)
+    parser.language = PY_LANGUAGE
     return parser
 
 

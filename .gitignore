@@ -1,7 +1,16 @@
-venv/
-.venv/
-
 # Rust
 debug/
 target/
 Cargo.lock
+
+# Python
+tree-sitter-python/
+build/
+venv/
+.venv/
+main_no_comments.py
+just_comments.json
+with_comments_main.py
+main_with_comments.py
+out.py
+__pycache__
