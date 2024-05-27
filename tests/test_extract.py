@@ -1,9 +1,9 @@
 from dataclasses import asdict
+
 import pytest
 
-from tests.utils import get_bytes_from_file, get_lines_from_file, load_json
-
 from bip.extract_comments import extract_comments
+from tests.utils import get_bytes_from_file, get_lines_from_file, load_json
 
 
 @pytest.mark.parametrize(

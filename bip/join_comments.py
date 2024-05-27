@@ -21,9 +21,7 @@ def apply_comments_to_file(comments_data, lines):
 
         # NOTE: apply on right side of the code. Removes trailing spaces and apply exactly 2 spaces.
         elif len(adjusted_lines[line_number][:-1]) <= column:
-            adjusted_lines[line_number] = (
-                adjusted_lines[line_number][:-1].rstrip() + "  " + comment_text + "\n"
-            )
+            adjusted_lines[line_number] = adjusted_lines[line_number][:-1].rstrip() + "  " + comment_text + "\n"
 
         else:
             raise ValueError("It should not happen.")

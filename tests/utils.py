@@ -1,7 +1,5 @@
 import json
 
-from tree_sitter import Language, Parser
-
 
 def get_bytes_from_file(file_path):
     with open(file_path, "r", encoding="utf-8") as file:

@@ -1,6 +1,4 @@
 tree-sitter
-ruff
-black
 gitpython
 pytest
 tree-sitter-python
@@ -8,3 +6,9 @@ tree-sitter-python
 typer
 pdbpp
 debugpy
+
+ruff
+isort
+flake8
+mypy
+pre-commit

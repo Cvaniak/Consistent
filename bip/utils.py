@@ -1,10 +1,11 @@
+import hashlib
 import json
 from pathlib import Path
 from typing import List
-from tree_sitter import Language, Parser
-import hashlib
-import tree_sitter_python as tspython
+
 import git
+import tree_sitter_python as tspython
+from tree_sitter import Language, Parser
 
 
 def load_language():

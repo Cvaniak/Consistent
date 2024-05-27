@@ -30,9 +30,7 @@ class TestJoin:
 
         # when
         lines_with_applied_comments = apply_comments_to_file(comments_data, lines_in)
-        lines_double_applied_comments = apply_comments_to_file(
-            comments_data, lines_with_applied_comments
-        )
+        lines_double_applied_comments = apply_comments_to_file(comments_data, lines_with_applied_comments)
 
         # then
         assert lines_double_applied_comments == lines_out

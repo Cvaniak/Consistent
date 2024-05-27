@@ -1,8 +1,9 @@
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
+
 from tree_sitter import Node, Parser
-from dataclasses import dataclass
 
 from bip.utils import get_file_bytes_by_commit_sha, load_language
 
@@ -35,9 +36,7 @@ def serialize_tree(node: Node, leaf_nodes: list[LeafNode]) -> None:
             serialize_tree(child, leaf_nodes)
 
     else:
-        x = LeafNode(
-            node.text.decode("utf-8"), node.start_point[0], column=node.start_point[1]
-        )
+        x = LeafNode(node.text.decode("utf-8"), node.start_point[0], column=node.start_point[1])
 
         if node.type == "comment":
             x.comment = True
@@ -99,9 +98,7 @@ def backtrack(
     elif tree_a[i - 1] == tree_b[j - 1]:
         added = backtrack(matrix, tree_a, tree_b, i - 1, j - 1)
         if tree_a[i - 1].marked:
-            added.append(
-                MissingComments(target_node=tree_b[j - 1], comment=tree_a[i - 1].node)
-            )
+            added.append(MissingComments(target_node=tree_b[j - 1], comment=tree_a[i - 1].node))
         return added
 
     else:
@@ -113,9 +110,7 @@ def backtrack(
             added = backtrack(matrix, tree_a, tree_b, i - 1, j)
             # This is node that have comment but we do not know where to put it
             if tree_a[i - 1].marked:
-                added.append(
-                    MissingComments(target_node=None, comment=tree_a[i - 1].node)
-                )  # abandoned
+                added.append(MissingComments(target_node=None, comment=tree_a[i - 1].node))  # abandoned
         return added
 
 
@@ -123,21 +118,15 @@ def backtrack_add_remove(matrix, tree_a, tree_b, i, j):
     if i == 0 or j == 0:
         return [], [], []
     elif tree_a[i - 1] == tree_b[j - 1]:
-        added, removed, common = backtrack_add_remove(
-            matrix, tree_a, tree_b, i - 1, j - 1
-        )
+        added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i - 1, j - 1)
         common.append(tree_a[i - 1])
         return added, removed, common
     else:
         if matrix[i][j - 1] > matrix[i - 1][j]:
-            added, removed, common = backtrack_add_remove(
-                matrix, tree_a, tree_b, i, j - 1
-            )
+            added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i, j - 1)
             added.append(tree_b[j - 1])
         else:
-            added, removed, common = backtrack_add_remove(
-                matrix, tree_a, tree_b, i - 1, j
-            )
+            added, removed, common = backtrack_add_remove(matrix, tree_a, tree_b, i - 1, j)
             removed.append(tree_a[i - 1])
         return added, removed, common
 
@@ -148,13 +137,9 @@ def display_diff(added: List[MissingComments]):
     for item in added:
         if item.target_node is not None:
             if item.comment.alone:
-                print(
-                    f"line: {item.target_node.line}\n{item.comment.text}\n{item.target_node.text}"
-                )
+                print(f"line: {item.target_node.line}\n{item.comment.text}\n{item.target_node.text}")
             else:
-                print(
-                    f"line: {item.target_node.line}\n{item.target_node.text} {item.comment.text}"
-                )
+                print(f"line: {item.target_node.line}\n{item.target_node.text} {item.comment.text}")
         else:
             print(f"abandoned: {item.comment.text}")
         print()
@@ -205,9 +190,7 @@ def apply_missing_comments(content: list[str], diffs: list[MissingComments]):
     return content
 
 
-def find_missing_comments(
-    tree_a: list[LeafNode], tree_b: list[LeafNode]
-) -> list[MissingComments]:
+def find_missing_comments(tree_a: list[LeafNode], tree_b: list[LeafNode]) -> list[MissingComments]:
     lcs_sequence = lcs(tree_a, tree_b)
 
     added = backtrack(
@@ -248,9 +231,7 @@ def main_between_commits(file: Path, json_file: Path):
     with open(json_file, "r", encoding="utf-8") as f:
         comments_data = json.load(f)
 
-    original_file = get_file_bytes_by_commit_sha(
-        file, comments_data["file_metadata"]["commit_sha"]
-    )
+    original_file = get_file_bytes_by_commit_sha(file, comments_data["file_metadata"]["commit_sha"])
     with open(file, "rb") as f:
         file_bytes = f.read()
 

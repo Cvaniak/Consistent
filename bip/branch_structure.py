@@ -1,11 +1,11 @@
-from dataclasses import dataclass, asdict
+import bisect
 import json
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import List
-from tree_sitter import Node, Tree
-import git
-import bisect
 
+import git
+from tree_sitter import Node, Tree
 from utils import get_tree
 
 
@@ -103,9 +103,7 @@ def extract_comments(input_file_path, source_code, lines):
     tree = get_tree(source_code)
     comments, deleted_lines, new_lines = remove_comments(tree, lines)
 
-    out_data = CommentsStruct(
-        comments, deleted_lines, get_commit_sha(), input_file_path
-    )
+    out_data = CommentsStruct(comments, deleted_lines, get_commit_sha(), input_file_path)
 
     return new_lines, out_data
 
@@ -113,9 +111,7 @@ def extract_comments(input_file_path, source_code, lines):
 # Example of reading,
 # processing, and writing the file
 # also three line comment
-def main(
-    input_file_path: Path, output_file_path: Path, output_comments_file_path: Path
-):
+def main(input_file_path: Path, output_file_path: Path, output_comments_file_path: Path):
     with open(input_file_path, "r", encoding="utf-8") as file:
         source_code = file.read()
 

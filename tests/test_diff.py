@@ -1,12 +1,12 @@
-from tests.utils import get_lines_from_file
+import pytest
+
 from bip.diff_trees import (
     apply_missing_comments,
     find_missing_comments,
     get_serialized_tree_bytes,
 )
 from bip.utils import load_language
-
-import pytest
+from tests.utils import get_lines_from_file
 
 
 @pytest.fixture

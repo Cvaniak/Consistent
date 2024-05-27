@@ -1,10 +1,9 @@
-import json
-from typing import Annotated
-import typer
 from pathlib import Path
+from typing import Annotated
 
-from bip import diff_trees, extract_comments
-from bip import join_comments
+import typer
+
+from bip import diff_trees, extract_comments, join_comments
 from bip.utils import compare_files, get_tree
 
 app = typer.Typer(no_args_is_help=True)
@@ -49,7 +48,7 @@ def join(file: BipFile):
         print("Some stats could be shown here")
     else:
         diff_trees.main_between_commits(file, json_file)
-        print(f"Difficult case")
+        print("Difficult case")
 
 
 @app.command()

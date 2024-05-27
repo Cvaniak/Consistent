@@ -1,9 +1,10 @@
-from dataclasses import dataclass, asdict
+import bisect
 import json
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import List, Optional
+
 from tree_sitter import Node
-import bisect
 
 from bip.utils import get_commit_sha, get_lines_hash, get_tree
 
@@ -64,10 +65,9 @@ def remove_comments(tree, lines):
         text = lines[start_p[0]][start_p[1] : end_p[1]]
 
         # TODO: here was edge case, needs to be watched for more
-        if (
-            node.parent.start_point[0] != start_p[0]
-            and node.prev_sibling.start_point[0] != start_p[0]
-        ) or (node.prev_sibling is None):
+        if (node.parent.start_point[0] != start_p[0] and node.prev_sibling.start_point[0] != start_p[0]) or (
+            node.prev_sibling is None
+        ):
             lines[start_p[0]] = ""
             bisect.insort(deleted_lines, start_p[0])
         else:
@@ -100,9 +100,7 @@ def extract_comments(input_file_path, source_code, lines):
 # Example of reading,
 # processing, and writing the file
 # also three line comment
-def main(
-    input_file_path: Path, output_file_path: Path, output_comments_file_path: Path
-):
+def main(input_file_path: Path, output_file_path: Path, output_comments_file_path: Path):
     with open(input_file_path, "r", encoding="utf-8") as file:
         source_code = file.read()
 

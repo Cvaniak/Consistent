@@ -1,3 +1,13 @@
 [tool.ruff]
-# In addition to the standard set of exclusions, omit all tests, plus a specific file.
 extend-exclude = ["tests/cases"]
+line-length = 120
+select = ["E", "F", "I", "B", "A"]
+
+[tool.ruff.lint]
+exclude = ["tests/cases"]
+
+[tool.ruff.format]
+exclude = ["tests/cases"]
+
+[tool.mypy]
+ignore_missing_imports = true
