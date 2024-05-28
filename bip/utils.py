@@ -38,11 +38,11 @@ def get_lines_hash(lines: List[str]):
 
 
 def compare_files(json_file: Path, file: Path) -> bool:
-    hash = get_file_hash(file)
+    file_hash = get_file_hash(file)
     with open(json_file, "r", encoding="utf-8") as f:
         comments_data = json.load(f)
 
-    return hash == comments_data["file_metadata"]["file_sha"]
+    return file_hash == comments_data["file_metadata"]["file_sha"]
 
 
 def get_file_bytes_by_commit_sha(file: Path, commit_sha: str) -> bytes:

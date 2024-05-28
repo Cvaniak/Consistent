@@ -1,7 +1,7 @@
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from tree_sitter import Node, Parser
 
@@ -65,7 +65,7 @@ def serialize_tree(node: Node, leaf_nodes: list[LeafNode]) -> None:
 def get_serialized_tree_bytes(file: bytes, parser: Parser) -> list[LeafNode]:
     tree = parser.parse(file)
 
-    serialized_tree = []
+    serialized_tree: list[LeafNode] = []
     serialize_tree(tree.root_node, serialized_tree)
 
     return serialized_tree
@@ -98,7 +98,9 @@ def backtrack(
     elif tree_a[i - 1] == tree_b[j - 1]:
         added = backtrack(matrix, tree_a, tree_b, i - 1, j - 1)
         if tree_a[i - 1].marked:
-            added.append(MissingComments(target_node=tree_b[j - 1], comment=tree_a[i - 1].node))
+            if tree_a[i - 1].node is not None:
+                val = cast(LeafNode, tree_a[i - 1].node)
+                added.append(MissingComments(target_node=tree_b[j - 1], comment=val))
         return added
 
     else:
@@ -110,7 +112,9 @@ def backtrack(
             added = backtrack(matrix, tree_a, tree_b, i - 1, j)
             # This is node that have comment but we do not know where to put it
             if tree_a[i - 1].marked:
-                added.append(MissingComments(target_node=None, comment=tree_a[i - 1].node))  # abandoned
+                if tree_a[i - 1].node is not None:
+                    val = cast(LeafNode, tree_a[i - 1].node)
+                    added.append(MissingComments(target_node=tree_b[j - 1], comment=val))
         return added
 
 
@@ -203,7 +207,7 @@ def find_missing_comments(tree_a: list[LeafNode], tree_b: list[LeafNode]) -> lis
     return added
 
 
-def main(file_in_1: str, file_in_2: str, file_out: str):
+def main(file_in_1: Path, file_in_2: Path, file_out: Path):
     parser = load_language()
 
     with open(file_in_1, "rb") as file:
@@ -250,7 +254,7 @@ def main_between_commits(file: Path, json_file: Path):
 
 
 if __name__ == "__main__":
-    file_a = "./tests/cases/happy_path/a.py"
-    file_b = "./tests/cases/happy_path/b.py"
-    file_out = "./tests/cases/happy_path/out.py"
+    file_a = Path("./tests/cases/happy_path/a.py")
+    file_b = Path("./tests/cases/happy_path/b.py")
+    file_out = Path("./tests/cases/happy_path/out.py")
     main(file_a, file_b, file_out)

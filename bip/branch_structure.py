@@ -128,9 +128,6 @@ def main(input_file_path: Path, output_file_path: Path, output_comments_file_pat
 
 
 if __name__ == "__main__":
-    input_file_path = "extract_comments.py"
-    output_file_path = "main_no_comments.py"
-    output_comments_file_path = "just_comments.json"
     input_file_path = Path("./tests/cases/happy_path/with_comments.py")
     output_file_path = Path("./tests/cases/happy_path/no_comments.py")
     output_comments_file_path = Path("./tests/cases/happy_path/comments.json")

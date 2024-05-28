@@ -1,13 +1,12 @@
 [tool.ruff]
 extend-exclude = ["tests/cases"]
 line-length = 120
-select = ["E", "F", "I", "B", "A"]
 
 [tool.ruff.lint]
-exclude = ["tests/cases"]
+exclude = ["tests/cases/*"]
+select = ["E", "F", "I", "B", "A"]
 
 [tool.ruff.format]
-exclude = ["tests/cases"]
+exclude = ["tests/cases/*"]
 
 [tool.mypy]
-ignore_missing_imports = true
