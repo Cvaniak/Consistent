@@ -5,49 +5,56 @@
                 "row": 18,
                 "column": 0
             },
-            "text": "# zys above"
+            "text": "# zys above",
+            "is_inline": false
         },
         {
             "start": {
                 "row": 15,
                 "column": 14
             },
-            "text": "# Pass inline"
+            "text": "# Pass inline",
+            "is_inline": true
         },
         {
             "start": {
                 "row": 13,
                 "column": 4
             },
-            "text": "# Comment above"
+            "text": "# Comment above",
+            "is_inline": false
         },
         {
             "start": {
                 "row": 12,
                 "column": 10
             },
-            "text": "# class A inline"
+            "text": "# class A inline",
+            "is_inline": true
         },
         {
             "start": {
                 "row": 8,
                 "column": 0
             },
-            "text": "# fox above"
+            "text": "# fox above",
+            "is_inline": false
         },
         {
             "start": {
                 "row": 4,
                 "column": 12
             },
-            "text": "# tricky inline"
+            "text": "# tricky inline",
+            "is_inline": true
         },
         {
             "start": {
                 "row": 0,
                 "column": 0
             },
-            "text": "# Test above"
+            "text": "# Test above",
+            "is_inline": false
         }
     ],
     "deleted_lines": [
@@ -56,6 +63,9 @@
         13,
         18
     ],
-    "commit_sha": "445c5e4fcd1eec8af912b220b39bcb9a87e48873",
-    "file_name": "./tests/cases/happy_path/with_comments.py"
+    "file_metadata": {
+        "commit_sha": "fe85b31f7a1bae98ab05fda142a263b1b3bdefcb",
+        "file_name": "/home/cvaniak/Code/Cvaniak/Consistent/tests/cases/happy_path/with_comments.py",
+        "file_sha": "ca43efba412cb8d653bca85bc735847140cec4fee867195ae8970e2c538874f9"
+    }
 }

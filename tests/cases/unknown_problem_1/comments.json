@@ -5,28 +5,30 @@
                 "row": 2,
                 "column": 40
             },
-            "text": "# broken symlink pointing to itself"
+            "text": "# broken symlink pointing to itself",
+            "is_inline": true
         },
         {
             "start": {
                 "row": 1,
                 "column": 30
             },
-            "text": "# fix for bpo-35306"
+            "text": "# fix for bpo-35306",
+            "is_inline": true
         },
         {
             "start": {
                 "row": 0,
                 "column": 26
             },
-            "text": "# drive exists but is not accessible"
+            "text": "# drive exists but is not accessible",
+            "is_inline": true
         }
     ],
-    "deleted_lines": [
-        0,
-        1,
-        2
-    ],
-    "commit_sha": "b6135f0011d27ce063557dd96fe003b71f7c9b97",
-    "file_name": "/home/cvaniak/Code/Cvaniak/Consistent/poc/tests/cases/unknown_problem_1/with_comments.py"
+    "deleted_lines": [],
+    "file_metadata": {
+        "commit_sha": "fe85b31f7a1bae98ab05fda142a263b1b3bdefcb",
+        "file_name": "/home/cvaniak/Code/Cvaniak/Consistent/tests/cases/unknown_problem_1/with_comments.py",
+        "file_sha": "f61ead675ffbc0c81d0e3c76bc3912688838608cccacb2d612850bf1337aaf37"
+    }
 }
