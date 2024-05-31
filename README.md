@@ -19,7 +19,13 @@ Not installable yet.
 
 ## How to use
 
-Describe options of `bip`
+`bip` is made of two main subcommands:
+
+- `bip extract <file name>` which removes comments from code and place them in seperate `JSON` file.
+- `bip join <file name>` which applies comments from `JSON` file (if exists) in corresponding places.
+
+By default (not changeble yet) `JSON` files are named as `comments_<original name>.json`.
+So you can add to `.gitignore` line like `comments_*.json`.
 
 ## Problems
 
@@ -33,3 +39,5 @@ Describe options of `bip`
 - [ ] Fix double join
 - [ ] Show abandoned comments
 - [ ] Show deleted comments
+- [ ] When `join` and comment is abandoned inform user. Then suggest `--force` flag.
+- [ ] Allow for path to subdirectory
