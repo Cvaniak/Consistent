@@ -21,11 +21,18 @@ Not installable yet.
 
 `bip` is made of two main subcommands:
 
-- `bip extract <file name>` which removes comments from code and place them in seperate `JSON` file.
+- `bip extract <file name>` which removes comments from code and place them in separate `JSON` file.
 - `bip join <file name>` which applies comments from `JSON` file (if exists) in corresponding places.
 
-By default (not changeble yet) `JSON` files are named as `comments_<original name>.json`.
+By default (not changeable yet) `JSON` files are named as `comments_<original name>.json`.
 So you can add to `.gitignore` line like `comments_*.json`.
+
+## Supported languages
+
+This tool uses `TreeSitter`. For every language the `AST` (Abstract Syntax Tree) has different nodes.
+For this reason every language needs to be covered separately.
+
+- [x] Python
 
 ## Problems
 
@@ -37,6 +44,7 @@ So you can add to `.gitignore` line like `comments_*.json`.
 
 - [ ] Make it pip installable
 - [ ] Fix double join
+- [ ] When extracting, compare with current `JSON`
 - [ ] Show abandoned comments
 - [ ] Show deleted comments
 - [ ] When `join` and comment is abandoned inform user. Then suggest `--force` flag.
