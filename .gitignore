@@ -6,6 +6,7 @@ Cargo.lock
 # Python
 tree-sitter-python/
 build/
+dist/
 venv/
 .venv/
 main_no_comments.py
