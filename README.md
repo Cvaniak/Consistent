@@ -38,14 +38,15 @@ For this reason every language needs to be covered separately.
 
 - When you use `join` command you can apply comments more than once
 
-## Future plans
-
 ## TODO
 
-- [ ] Make it pip installable
+- [x] Make it pip installable
 - [ ] Fix double join
 - [ ] When extracting, compare with current `JSON`
 - [ ] Show abandoned comments
 - [ ] Show deleted comments
 - [ ] When `join` and comment is abandoned inform user. Then suggest `--force` flag.
 - [ ] Allow for path to subdirectory
+- [ ] Figure out how to install TreeSitter per language
+
+## Future plans
