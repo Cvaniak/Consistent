@@ -10,9 +10,16 @@ license = { file = "LICENSE" }
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
 requires-python = ">=3.7"
+dependencies = [
+  "typer==0.12.3",
+  "tree-sitter-python==0.21.0",
+  "tree-sitter==0.22.3",
+  "GitPython==3.1.43",
+]
+
 
 [project.scripts]
-bip = "bip.__main__:main" 
+bip = "bip.__main__:main"
 
 [tool.ruff]
 extend-exclude = ["tests/cases"]
