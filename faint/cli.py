@@ -3,12 +3,12 @@ from typing import Annotated
 
 import typer
 
-from bip import diff_trees, extract_comments, join_comments
-from bip.utils import compare_files, get_tree
+from faint import diff_trees, extract_comments, join_comments
+from faint.utils import compare_files, get_tree
 
 app = typer.Typer(no_args_is_help=True)
 
-BipFile = Annotated[
+FaintFile = Annotated[
     Path,
     typer.Argument(
         exists=True,
@@ -22,7 +22,7 @@ BipFile = Annotated[
 
 
 @app.command()
-def extract(file: BipFile):
+def extract(file: FaintFile):
     """
     Extract comments from choosen file
     """
@@ -34,7 +34,7 @@ def extract(file: BipFile):
 
 
 @app.command()
-def join(file: BipFile):
+def join(file: FaintFile):
     """
     Join comments with source file
     """
@@ -52,7 +52,7 @@ def join(file: BipFile):
 
 
 @app.command()
-def list_comments(file: BipFile):
+def list_comments(file: FaintFile):
     """
     List all comments existing in code
     """

@@ -5,7 +5,7 @@ from typing import List, Optional, cast
 
 from tree_sitter import Node, Parser
 
-from bip.utils import get_file_bytes_by_commit_sha, load_language
+from faint.utils import get_file_bytes_by_commit_sha, load_language
 
 
 @dataclass

@@ -6,7 +6,7 @@ from typing import List, Optional
 
 from tree_sitter import Node
 
-from bip.utils import get_commit_sha, get_lines_hash, get_tree
+from faint.utils import get_commit_sha, get_lines_hash, get_tree
 
 
 @dataclass

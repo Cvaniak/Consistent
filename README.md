@@ -1,4 +1,4 @@
-# Consistent
+# Faint Comments
 
 This repository is my attempt in [100 commits competition](https://100commitow.pl/).
 
@@ -35,10 +35,10 @@ Not installable yet. I need to change name and send to PyPi.
 
 ## How to use
 
-`bip` is made of two main subcommands:
+`faint` is made of two main subcommands:
 
-- `bip extract <file name>` which removes comments from code and place them in separate `JSON` file.
-- `bip join <file name>` which applies comments from `JSON` file (if exists) in corresponding places.
+- `faint extract <file name>` which removes comments from code and place them in separate `JSON` file.
+- `faint join <file name>` which applies comments from `JSON` file (if exists) in corresponding places.
 
 By default (not changeable yet) `JSON` files are named as `comments_<original name>.json`.
 So you can add to `.gitignore` line like `comments_*.json`.

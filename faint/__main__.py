@@ -1,4 +1,4 @@
-from bip import cli
+from faint import cli
 
 
 def main():
