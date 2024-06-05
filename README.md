@@ -31,9 +31,15 @@ I need to record the example of usage.
 
 ## How to install
 
-Not installable yet. I need to change name and send to PyPi.
+You can `pip` install:
+
+```bash
+pip3 install faint
+```
 
 ## How to use
+
+You can check what is available via `faint --help` or just `faint`.
 
 `faint` is made of two main subcommands:
 
@@ -87,5 +93,6 @@ For this reason every language needs to be covered separately.
 - [ ] Add Git hook
 - [ ] Handle when there is new comment on already `extract`ed file
 - [ ] Create `join-extract` command
+- [ ] Write path to file as relative to repo
 
 ## Future plans
