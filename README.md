@@ -27,7 +27,62 @@ Also I thought I can learn some cool algorithms and tools.
 
 ## Demo
 
-I need to record the example of usage.
+Imagine you have your code:
+
+```python
+# TODO: this name must be changed
+def foo():
+    ...
+    i  = 0x5f3759df - ( i >> 1 ) # what the quack?
+    ...
+```
+
+and maybe you do not think it is good to keep your comments in code.  
+You run `faint extract <name_of_the_file>.py` as a result you get:
+
+```python
+def foo():
+    ...
+    i  = 0x5f3759df - ( i >> 1 )
+    ...
+
+```
+
+and `JSON` file:
+
+```json
+{
+  "comments": [
+    {
+      "start": {
+        "row": 4,
+        "column": 33
+      },
+      "text": "# what the quack?",
+      "is_inline": true
+    },
+    {
+      "start": {
+        "row": 1,
+        "column": 0
+      },
+      "text": "# TODO: this name must be changed",
+      "is_inline": false
+    }
+  ],
+  "deleted_lines": [1],
+  "file_metadata": {
+    "commit_sha": "sha_of_commit",
+    "file_name": "path/to/file/<name_of_the_file>.py",
+    "file_sha": "hash_of_the_file"
+  }
+}
+```
+
+and this file is kept as `comment_<name_of_the_file>.json`.  
+At any moment you can `faint join <name_of_the_file>.py` and you will get original file.
+
+But this tool also tries to handle situation when you will modify the file before `join` command and more.
 
 ## How to install
 
