@@ -135,6 +135,10 @@ For this reason every language needs to be covered separately.
 
 - [x] Python
 
+## Tests
+
+This tool will have many edge cases to cover. The tests for now does not need to pass any treshold, but are more a track of edge cases to cover in future.
+
 ## TODO
 
 - [x] Make it pip installable
