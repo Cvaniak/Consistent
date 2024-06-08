@@ -155,3 +155,10 @@ This tool will have many edge cases to cover. The tests for now does not need to
 - [ ] Write path to file as relative to repo
 
 ## Future plans
+
+## Sumarry of 100 commits challange
+
+It is really hard to be consistent in anything. But being consistent is one thing; keeping a project going through various changes is another.
+Having strict rules that require you to add something to your project might be beneficial. It keeps you thinking about new changes and helps you remember what is already there. However, it also has downsides. For me, it was challenging to complete larger tasks.
+In the end, I am happy that I tried to finish this challenge and create the tool that had been in the back of my mind for a long time. I applied changes as needed.
+
